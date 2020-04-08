@@ -12,17 +12,20 @@ if [ $# -lt 1 ]; then
 fi
 
 kubeadm reset -f
-kubeadm init --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
+kubeadm init --config=/home/pi/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
 
-sudo -u pi mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+rm -rf /home/pi/.kube
+sudo -u pi mkdir -p /home/pi/.kube
+cp -i /etc/kubernetes/admin.conf /home/pi/.kube/config
+chown pi:pi /home/pi/.kube/config
 
-sudo -u pi kubectl apply -f $HOME/Build_RasPi_Kubernetes_Cluster/cni/kube-flannel_v0.12.0-arm.yaml
+sleep 60
+sudo -u pi kubectl apply -f /home/pi/Build_RasPi_Kubernetes_Cluster/cni/kube-flannel_v0.12.0-arm.yaml
+sleep 30
 
-chmod +x $HOME/Build_HA_RasPi_K8s_Cluster/scripts/scp_cert.sh
-$HOME/Build_HA_RasPi_K8s_Cluster/scripts/scp_cert.sh $@
+chmod +x /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/set_certs.sh
+/home/pi/Build_HA_RasPi_K8s_Cluster/scripts/set_certs.sh $@
 
-echo 'Done.'
+echo 'done init.'
 
 exit 0
