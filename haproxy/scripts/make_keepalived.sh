@@ -39,6 +39,6 @@ echo "        chk_haproxy"                          >> $HOME/Build_HA_RasPi_K8s_
 echo "    }"                                        >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf
 echo "}"                                            >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf
 
-echo 'make keepaloved.conf done.'
+echo 'make keepalived.conf done.'
 
 exit 0

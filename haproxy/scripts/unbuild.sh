@@ -18,12 +18,12 @@ apt-mark unhold haproxy keepalived
 apt remove -y haproxy keepalived
 iptables -D INPUT -p tcp -m tcp --dport ${HAPROXY_PORT} -j ACCEPT
 
-if [ -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf.bk ]; then
-    mv -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf.bk $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf
+if [ -f /etc/keepalived/keepalived.conf.bk ]; then
+    mv -f /etc/keepalived/keepalived.conf.bk /etc/keepalived/keepalived.conf
 fi
 
-if [ -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg.bk ]; then
-    mv -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg.bk $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
+if [ -f /etc/haproxy/haproxy.cfg.bk ]; then
+    mv -f /etc/haproxy/haproxy.cfg.bk /etc/haproxy/haproxy.cfg
 fi
 
 if [ -f /etc/rc.local ]; then
