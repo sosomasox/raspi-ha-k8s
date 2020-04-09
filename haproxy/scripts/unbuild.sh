@@ -13,11 +13,6 @@ fi
 
 HAPROXY_PORT=$1
 
-systemctl stop haproxy keepalived
-apt-mark unhold haproxy keepalived
-apt remove -y haproxy keepalived
-iptables -D INPUT -p tcp -m tcp --dport ${HAPROXY_PORT} -j ACCEPT
-
 if [ -f /etc/keepalived/keepalived.conf.bk ]; then
     mv -f /etc/keepalived/keepalived.conf.bk /etc/keepalived/keepalived.conf
 fi
@@ -25,6 +20,12 @@ fi
 if [ -f /etc/haproxy/haproxy.cfg.bk ]; then
     mv -f /etc/haproxy/haproxy.cfg.bk /etc/haproxy/haproxy.cfg
 fi
+
+systemctl stop haproxy keepalived
+apt-mark unhold haproxy keepalived
+apt remove --purge -y haproxy keepalived
+iptables -D INPUT -p tcp -m tcp --dport ${HAPROXY_PORT} -j ACCEPT
+
 
 if [ -f /etc/rc.local ]; then
     cp /etc/rc.local /etc/rc.local.bk
