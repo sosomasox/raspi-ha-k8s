@@ -27,7 +27,7 @@ chmod +x /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/set_certs.sh
 /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/set_certs.sh $@
 
 chmod +x /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/scp_kubeadm-config.sh
-/home/pi/Build_HA_RasPi_K8s_Cluster/scripts/scp_kubeadm-config.sh $@
+sudo -u pi /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/scp_kubeadm-config.sh $@
 
 echo 'init done.'
 
