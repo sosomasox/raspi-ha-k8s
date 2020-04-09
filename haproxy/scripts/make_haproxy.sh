@@ -62,7 +62,6 @@ echo "    option tcp-check" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/h
 echo "    balance roundrobin" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
 echo "    option redispatch" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
 echo "    retries 3" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
-echo ""
 
 count=0
 
@@ -74,7 +73,6 @@ for host in $@; do
     count=`expr $count + 1`
 done
 
-echo
 echo 'make haproxy.cfg done.'
 
 exit 0
