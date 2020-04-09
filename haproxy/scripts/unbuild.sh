@@ -15,8 +15,16 @@ HAPROXY_PORT=$1
 
 systemctl stop haproxy keepalived
 apt-mark unhold haproxy keepalived
-apt remove --purge -y haproxy keepalived
+apt remove -y haproxy keepalived
 iptables -D INPUT -p tcp -m tcp --dport ${HAPROXY_PORT} -j ACCEPT
+
+if [ -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf.bk ]; then
+    mv -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf.bk $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf
+fi
+
+if [ -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg.bk ]; then
+    mv -f $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg.bk $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
+fi
 
 if [ -f /etc/rc.local ]; then
     cp /etc/rc.local /etc/rc.local.bk
