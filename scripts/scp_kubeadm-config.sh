@@ -14,6 +14,7 @@ fi
 USER=pi
 
 for host in $@; do
+    ssh -t "${USER}"@$host "rm -rf Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml"
     scp $HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml "${USER}"@$host:Build_HA_RasPi_K8s_Cluster/manifests/
 done
 
