@@ -17,7 +17,7 @@ fi
 
 echo "global" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
 echo "    log /dev/log    local0" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
-echo "    log /dev/log    local1 notice"
+echo "    log /dev/log    local1 notice" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
 echo "    chroot /var/lib/haproxy" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
 echo "    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
 echo "    stats timeout 30s" >> $HOME/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg
