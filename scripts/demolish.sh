@@ -13,7 +13,7 @@ chmod +x /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/clean_network_if.sh
 rm -rf /home/pi/.kube
 
 echo 
-echo 'done demolish.'
+echo 'demolish done.'
 echo 'You should reboot your Raspberry Pi.'
 
 exit 0

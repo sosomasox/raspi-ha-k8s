@@ -38,6 +38,6 @@ for host in $@; do
 
 done
 
-echo 'done set certs.'
+echo 'set certs done.'
 
 exit 0

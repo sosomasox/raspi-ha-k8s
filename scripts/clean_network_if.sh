@@ -9,6 +9,6 @@ fi
 ip link del flannel.1
 ip link del cni0
 
-echo 'done clean network interface.'
+echo 'clean network interface done.'
 
 exit 0

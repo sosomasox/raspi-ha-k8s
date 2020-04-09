@@ -18,6 +18,6 @@ cp -f /home/pi/Build_HA_RasPi_K8s_Cluster/certs/etcd-ca.key        /etc/kubernet
 cp -f /home/pi/Build_HA_RasPi_K8s_Cluster/certs/admin.conf         /etc/kubernetes/admin.conf
 chown -R root:root /etc/kubernetes/
 
-echo 'done cp certs.'
+echo 'cp certs done.'
 
 exit 0
