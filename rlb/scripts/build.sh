@@ -33,7 +33,7 @@ do
         echo "iptables -A INPUT -p tcp -m tcp --dport ${HAPROXY_PORT} -j ACCEPT" >> /etc/rc.local
         echo >> /etc/rc.local
     fi
-    
+
     echo $line >> /etc/rc.local
 done < /etc/rc.local.bk
 
@@ -41,13 +41,13 @@ if [ -f /etc/keepalived/keepalived.conf ]; then
     mv -f /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.bk
 fi
 
-cp -f /home/pi/Build_HA_RasPi_K8s_Cluster/haproxy/config/keepalived.conf /etc/keepalived/keepalived.conf
+cp -f /home/pi/Build_HA_RasPi_K8s_Cluster/rlb/config/keepalived.conf /etc/keepalived/keepalived.conf
 
 if [ -f /etc/haproxy/haproxy.cfg ]; then
     mv -f /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bk
 fi
 
-cp -f /home/pi/Build_HA_RasPi_K8s_Cluster/haproxy/config/haproxy.cfg /etc/haproxy/haproxy.cfg
+cp -f /home/pi/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg /etc/haproxy/haproxy.cfg
 
 systemctl restart haproxy keepalived
 
