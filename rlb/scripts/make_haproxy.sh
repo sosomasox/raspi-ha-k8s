@@ -7,7 +7,7 @@ if [ $(whoami) != "pi" ]; then
 fi
 
 if [ $# -lt 2 ]; then
-    echo "Usage: $0 HAPROXY_PORTx CONTROL_PLANES..."
+    echo "Usage: $0 HAPROXY_PORT CONTROL_PLANES..."
     exit 1
 fi
 
