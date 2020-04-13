@@ -18,7 +18,7 @@
 
 
 
-### Kubernetesワーカーノード群
+## Kubernetesワーカーノード群
 Kubernetesワーカーノード群はKubernetesマスターノード群によってスケジューリングされたPodを動作させます。  
 
 アクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築、アクティブ/スタンバイ冗長化構成ロードバランサの構築が完了したらワーカーノードをクラスターに参加させ、ワーカーノード群を形成します。  
@@ -26,11 +26,9 @@ Kubernetesワーカーノード群はKubernetesマスターノード群によっ
 Kubernetesワーカーノード群の構築に関しましては高可用性Kubernetesクラスターの構築に直接的に関与しないため、ワーカーノードをクラスターに参加させる方法、クラスターの動作検証の方法などについては言及しません。  
 ワーカノードをクラスターに参加させる方法に関しましては[ワーカーノードの設定](https://github.com/izewfktvy533zjmn/Build_RasPi_Kubernetes_Cluster/blob/master/README.md#%E3%83%AF%E3%83%BC%E3%82%AB%E3%83%BC%E3%83%8E%E3%83%BC%E3%83%89%E3%81%AE%E8%A8%AD%E5%AE%9A)をクラスターの動作検証の方法に関しましては[Kubernetesクラスターの動作検証方法](https://github.com/izewfktvy533zjmn/Build_RasPi_Kubernetes_Cluster/blob/master/README.md#kubernetes%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E3%83%BC%E3%81%AE%E5%8B%95%E4%BD%9C%E6%A4%9C%E8%A8%BC%E6%96%B9%E6%B3%95)を参考にして下さい。  
 
-<center><img src="./images/kubernetes_woker_nodes.png" width=50% alt="Redundant Kubernetes Master Nodes"></center><br>
 
 
-
-### アクティブ/アクティブ冗長化構成Kubernetesマスターノード群
+## アクティブ/アクティブ冗長化構成Kubernetesマスターノード群
 Kubernetesマスターノードはクラスターの操作機能の提供(kube-apiserver)、クラスターに関する情報の管理(etcd)、PodのスケジューリングやPodを適切なワーカーノードに再割り当てるための管理(kube-scheduler)、ワーカーノードの状態監視(kube-controller-manager)といったKubernetesクラスター全体の管理を行います。  
 
 シングルコントロールプレーンクラスターでは1台のマスターノードが故障した場合、クラスターの管理を継続させることができません。  
@@ -64,7 +62,7 @@ etcdクラスターを構築する方法として、[Kubernetes公式ドキュ�
 
 
 
-### アクティブ/スタンバイ冗長化構成ロードバランサ
+## アクティブ/スタンバイ冗長化構成ロードバランサ
 **アクティブ/スタンバイ冗長化構成ロードバランサ** はアクティブ/アクティブ冗長化構成Kubernetesマスターノード群に対するクラスター操作のAPIリクエストを受け取り、各マスターノードのkube-apiserverに振り分ける役割を担っています。  
 
 本アーキテクチャーにおける高可用性を実現させるための制約を満たすために、負荷分散機能やHTTPリバースプロキシとしての機能、サーバに対するの監視機能、ヘルスチェック機能による非稼働中のサーバに対するリクエスト振り分けの停止などを提供するオープンソースのTCP/HTTPプロキシソフトウェアである[**HAProxy**](http://www.haproxy.org/)を利用することでロードバランサを構築します。  
@@ -145,6 +143,8 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサの構築
 **アクティブ/スタンバイ冗長化構成ロードバランサ** の構築方法に関しましては、[こちら](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb)を参照して下さい。
+
+<img src="../images/redundant_load_balancers_and_redundant_kubernetes_master_nodes_on_network.png" width=100% alt="Redundant Load Balancers and Redundant Kubernetes Master Nodes on Network"><br>
 
 
 
