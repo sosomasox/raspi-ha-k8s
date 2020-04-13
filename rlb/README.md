@@ -373,6 +373,20 @@ ip addr
 
 
 
+### HAProxy1のリスニングポートが開放されていることの確認
+[ロードバランサの構築](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#ロードバランサの構築)時にbuild.shスクリプトにおいて、アクティブ/スタンバイ冗長化構成ロードバランサで利用するリスニングポートに対する受信パケットの流入を許可するように設定しました。  
+ここでは、リスニングポートである9000番ポートが開放されていることを確認します。  
+下記のコマンドを実行して下さい。
+
+```
+sudo netstat -ltunp4
+```
+
+下図の結果より、 アクティブ/スタンバイ冗長化構成ロードバランサのリスニングポートである9000番ポートが開放されており、HAProxyが使用していることが確認できました。  
+
+<img src="../images/netstat_on_haproxy1.png" width=100% alt="netstat on HAProxy1"><br>
+
+
 
 ### HAProxy2上での確認作業
 次に、IPアドレスが192.168.3.242であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
@@ -412,7 +426,7 @@ sudo systemctl status haproxy
 
 
 
-### HAProxy1に割り当てられたIPアドレスの確認
+### HAProxy2に割り当てられたIPアドレスの確認
 Keepalivedの起動確認の際、systemdのログからこのロードバランサがkeepalivedにおいてBACKUP状態であることが判明しました。  
 したがって、このロードバランサ(HAProxy2)には仮想IPアドレスが割り当てられていないはずです。  
 下記のコマンドを実行し、確認します。  
@@ -425,6 +439,14 @@ ip addr
 
 <img src="../images/ip_addr_on_haproxy2.png" width=100% alt="ip addr on HAProxy2"><br>
 
+
+### HAProxy2のリスニングポートが開放されていることの確認
+[HAProxy1のリスニングポートが開放されていることの確認](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#HAProxy1のリスニングポートが開放されていることの確認)と同様の手順を実施し、確認して下さい。  
+
+
+
+
+
 ## アクティブ/スタンバイ冗長化構成ロードバランサの状態
 以上より、アクティブ/スタンバイ冗長化構成ロードバランサは下図のような状態になっていることが確認できました。  
 
@@ -433,7 +455,11 @@ ip addr
 
 
 ## Keepalived　動作検証法
+HAProxy1に対して　keepalivedの　稼働を停止させることで、　HAProxy2に対してフェイルオーバーが発生するか　検証を行います。
 
 
 
-## HAProxy　動作検証法
+## Keepalivedを停止させたときのロードバランサの動作
+
+
+## HAProxyを停止させたときのロードバランサの動作
