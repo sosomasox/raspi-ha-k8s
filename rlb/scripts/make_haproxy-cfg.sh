@@ -32,8 +32,9 @@ echo "" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "defaults" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    log global" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
-echo "    mode    http" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
-echo "    option  httplog" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
+echo "    mode tcp" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
+echo "    option tcp-check" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
+echo "    option tcplog" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    option  dontlognull" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    retries 10" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    timeout connect 3000ms" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
@@ -51,14 +52,9 @@ echo "" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "frontend kube-apiserver" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    bind *:9000" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    default_backend kube-apiserver" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
-echo "    mode tcp" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
-echo "    option tcplog" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
-echo "    log global" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "backend kube-apiserver" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
-echo "    mode tcp" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
-echo "    option tcp-check" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    balance roundrobin" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    option redispatch" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
 echo "    retries 3" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
