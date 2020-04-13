@@ -49,7 +49,7 @@ fi
 
 cp -f /home/pi/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg /etc/haproxy/haproxy.cfg
 
-systemctl restart haproxy keepalived
+systemctl start haproxy keepalived
 
 
 echo
