@@ -307,6 +307,129 @@ _**新しい設定ファイルを使用して再構築する場合には、[Keep
 
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサの動作検証
+ここでは、[アクティブ/スタンバイ冗長化構成ロードバランサの構築方法](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#アクティブ/スタンバイ冗長化構成ロードバランサの構築方法)に従って構築したロードバランサの動作検証を行います。
+
+
+## アクティブ/スタンバイ冗長化構成ロードバランサの状態確認
+まず、各ロードバランサにて、KeepalivedとHAProxyが起動しているかどうか確認し、どのロードバランサに対して仮想IPアドレスが割り当てられているか確認していきます。  
+
+
+<img src="../images/redundant_load_balancers_on_network.png" width=100% alt="Redundant Load Balancers on Network"><br>
+
+<img src="../images/redundant_load_balancers.png" width=100% alt="Redundant Load Balancers"><br>
+
+
+
+### HAProxy1上での確認作業
+IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
+
+```
+ssh pi@192.168.3.241
+```
+
+
+
+### HAProxy1上のKeepalivedの起動確認
+HAProxy1上でKeepalivedが起動しているか確認します。  
+下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl status keepalived
+```
+
+下図の結果からKeepalivedが起動していることが確認できました。  
+また、systemdのログよりこのロードバランサがkeepalivedにいて **MASTER状態** であることが判明しました。  
+
+<img src="../images/systemctl_status_keepalived_on_haproxy1.png" width=100% alt="systemctl status keepalived on HAProxy1"><br>
+
+
+
+### HAProxy1上のHAProxyの起動確認
+次に、HAProxy1上でHAProxyが起動しているか確認します。  
+下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl status haproxy
+```
+
+下図の結果より、HAProxyが起動していることが確認できました。
+
+<img src="../images/systemctl_status_haproxy_on_haproxy1.png" width=100% alt="systemctl status haproxy on HAProxy1"><br>
+
+
+
+### HAProxy1に割り当てられたIPアドレスの確認
+Keepalivedの起動確認の際、systemdのログからこのロードバランサがKeepalivedにおいてMASTER状態であることが判明しました。  
+したがって、このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てられているはずです。  
+下記のコマンドを実行し、確認します。  
+
+```
+ip addr
+```
+
+下図の結果より、**仮想IPアドレスである192.168.3.240がこのロードバランサ(HAProxy1)に割り当てられている** ことが確認できました。　　
+
+<img src="../images/ip_addr_on_haproxy1.png" width=100% alt="ip addr on HAProxy1"><br>
+
+
+
+
+### HAProxy2上での確認作業
+次に、IPアドレスが192.168.3.242であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
+
+```
+ssh pi@192.168.3.242
+```
+
+
+
+### HAProxy2上のKeepalivedの起動確認
+HAProxy2上でKeepalivedが起動しているか確認します。  
+下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl status keepalived
+```
+
+下図の結果からKeepalivedが起動していることが確認できました。  
+また、systemdのログよりこのロードバランサがKeepalivedにおいて **BACKUP状態** であることが判明しました。  
+
+<img src="../images/systemctl_status_keepalived_on_haproxy2.png" width=100% alt="systemctl status keepalived on HAProxy2"><br>
+
+
+
+### HAProxy2上のHAProxyの起動確認
+次に、HAProxy2上でHAProxyが起動しているか確認します。  
+下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl status haproxy
+```
+
+下図の結果より、HAProxyが起動していることが確認できました。
+
+<img src="../images/systemctl_status_haproxy_on_haproxy2.png" width=100% alt="systemctl status haproxy on HAProxy2"><br>
+
+
+
+### HAProxy1に割り当てられたIPアドレスの確認
+Keepalivedの起動確認の際、systemdのログからこのロードバランサがkeepalivedにおいてBACKUP状態であることが判明しました。  
+したがって、このロードバランサ(HAProxy2)には仮想IPアドレスが割り当てられていないはずです。  
+下記のコマンドを実行し、確認します。  
+
+```
+ip addr
+```
+
+下図の結果より、**仮想IPアドレスである192.168.3.240はこのロードバランサ(HAProxy2)には割り当てられていない** ことが確認できました。　　
+
+<img src="../images/ip_addr_on_haproxy2.png" width=100% alt="ip addr on HAProxy2"><br>
+
+## アクティブ/スタンバイ冗長化構成ロードバランサの状態
+以上より、アクティブ/スタンバイ冗長化構成ロードバランサは下図のような状態になっていることが確認できました。  
+
+<img src="../images/active_haproxy1_and_standby_haproxy2.png" width=100% alt="Active HAProxy1 and Standby HAProxy2"><br>
+
 
 
 ## Keepalived　動作検証法
