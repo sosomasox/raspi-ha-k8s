@@ -144,7 +144,7 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
 ## アクティブ/スタンバイ冗長化構成ロードバランサの構築
 **アクティブ/スタンバイ冗長化構成ロードバランサ** の構築方法に関しましては、[こちら](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb)を参照して下さい。
 
-<img src="../images/redundant_load_balancers_and_redundant_kubernetes_master_nodes_on_network.png" width=100% alt="Redundant Load Balancers and Redundant Kubernetes Master Nodes on Network"><br>
+<img src="./images/redundant_load_balancers_and_redundant_kubernetes_master_nodes_on_network.png" width=100% alt="Redundant Load Balancers and Redundant Kubernetes Master Nodes on Network"><br>
 
 
 
