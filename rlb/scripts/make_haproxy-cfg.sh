@@ -62,7 +62,7 @@ count=0
 
 for host in $@; do
     if [ $count -ne 0 ]; then
-        echo "    server control-plane$count $host:6443 check inter 3000ms rise 30 fall 3" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
+        echo "    server master$count $host:6443 check inter 3000ms rise 30 fall 3" >> $HOME/Build_HA_RasPi_K8s_Cluster/rlb/config/haproxy.cfg
     fi
 
     count=`expr $count + 1`
