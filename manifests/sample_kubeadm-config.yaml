@@ -1,0 +1,9 @@
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+kubernetesVersion: v1.13.5
+apiServer:
+  certSANs:
+  - "192.168.3.240"
+controlPlaneEndpoint: "192.168.3.240:9000"
+networking:
+  podSubnet: 10.244.0.0/16
