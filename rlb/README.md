@@ -92,7 +92,7 @@ vrrp_instance HA-CLUSTER {
 
 **virtual_ipaddressブロック** では仮想IPアドレスを設定し、**track_scriptブロック** にてvrrp_scriptセクションで定義したヘルスチェックを実行するように設定しています。  
 
-上記の設定により、HAProxyに対するヘルスチェックが失敗したり、Keepalivedに障害が発生した場合にフェイルオーバーを発生させることができるため、スタンバイ状態のロードバランサが仮想IPアドレスを引き継いだ上でアクティブ状態に遷移し、高可用性Kubernetesクラスターのロードバランサとしての機能を継続させることができます。  
+上記の設定により、HAProxyに対するヘルスチェックが失敗したり、Keepalivedに障害が発生した場合にフェイルオーバーを機能させることができるため、スタンバイ状態のロードバランサが仮想IPアドレスを引き継いだ上でアクティブ状態に遷移し、高可用性Kubernetesクラスターのロードバランサとしての機能を継続させることができます。  
 
 
 
@@ -258,16 +258,15 @@ build done.
 **build.sh** スクリプトは、KeepalivedとHAProxyのパッケージをインストールし、
 **iptables** コマンドを使用して、アクティブ/スタンバイ冗長化構成ロードバランサで利用するリスニングポートに対する受信パケットの流入を許可するように設定します。  
 また、ロードバランサの再起動後にもリスニングポートを開放し続けるために **/etc/rc.local** ファイルに対する編集を行います。  
-その後、[Keepalived設定ファイルの作成](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#Keepalived設定ファイルの作成)と
-[HAProxy設定ファイルの作成](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#HAProxy設定ファイルの作成)で作成した設定ファイルを　
-systemdの環境変数として設定されている各サービスのエントリポイントに設置し、KeepalivedとHAProxyを起動させることでロードバランサの構築を完了させます。  
+その後、[Keepalived設定ファイルの作成](#keepalived設定ファイルの作成)と
+[HAProxy設定ファイルの作成](#haproxy設定ファイルの作成)で作成した設定ファイルをsystemdの環境変数として設定されている各サービスのエントリポイントに設置し、KeepalivedとHAProxyを起動させることでロードバランサの構築を完了させます。  
 
 _**\* bulid.shスクリプトの詳細に関しましては、[こちら](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/scripts/build.sh)を参照して下さい。**_
 
 
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサの稼働
-[同様の手順](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#アクティブ/スタンバイ冗長化構成ロードバランサの構築方法)をもう1台のロードバランサに対しても行うことで、**アクティブ/スタンバイ冗長化構成ロードバランサ** を稼働させることができます。  
+[同様の手順](#アクティブ/スタンバイ冗長化構成ロードバランサの構築方法)をもう1台のロードバランサに対しても行うことで、**アクティブ/スタンバイ冗長化構成ロードバランサ** を稼働させることができます。  
 
 <img src="../images/redundant_load_balancers_on_network.png" width=100% alt="Redundant Load Balancers on Network"><br>
 
@@ -296,15 +295,15 @@ unbuild done.
 
 _**\* unbulid.shスクリプトの詳細に関しましては、[こちら](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/scripts/unbuild.sh)を参照して下さい。**_  
 _**なお、一度作成したKeepalivedの設定ファイルとHAProxyの設定をそのまま使用して再構築する場合には、もう一度 build.shスクリプトを実行します。**_  
-_**新しい設定ファイルを使用して再構築する場合には、[Keepalived設定ファイルの作成](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#Keepalived設定ファイルの作成)と
-[HAProxy設定ファイルの作成](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#HAProxy設定ファイルの作成)からやり直す必要があります。**_
+_**新しい設定ファイルを使用して再構築する場合には、[Keepalived設定ファイルの作成](#keepalived設定ファイルの作成)と
+[HAProxy設定ファイルの作成](#haproxy設定ファイルの作成)からやり直す必要があります。**_
 
 
 
 
 
-## アクティブ/スタンバイ冗長化構成ロードバランサのフェイルオーバー動作検証
-ここでは、[アクティブ/スタンバイ冗長化構成ロードバランサの構築方法](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#アクティブ/スタンバイ冗長化構成ロードバランサの構築方法)に従って構築したロードバランサのフェイルオーバーに関する動作検証を行います。
+## アクティブ/スタンバイ冗長化構成ロードバランサの動作検証
+ここでは、[アクティブ/スタンバイ冗長化構成ロードバランサの構築方法](#アクティブ/スタンバイ冗長化構成ロードバランサの構築方法)に従って構築したロードバランサのフェイルオーバーに関する動作検証を行います。
 
 _**\* ここでは負荷分散の対象となるアクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築が完了していないため、負荷分散に関する動作検証は行いません。**_  
 
@@ -370,7 +369,7 @@ ip addr
 
 
 ### HAProxy1のリスニングポートが開放されていることの確認
-[ロードバランサの構築](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#ロードバランサの構築)時にbuild.shスクリプトにおいて、アクティブ/スタンバイ冗長化構成ロードバランサで利用するリスニングポートに対する受信パケットの流入を許可するように設定しました。  
+[ロードバランサの構築](#ロードバランサの構築)時にbuild.shスクリプトにおいて、アクティブ/スタンバイ冗長化構成ロードバランサで利用するリスニングポートに対する受信パケットの流入を許可するように設定しました。  
 ここでは、リスニングポートである9000番ポートが開放されていることを確認します。  
 下記のコマンドを実行して下さい。
 
@@ -450,17 +449,13 @@ ip addr
 
 
 
-## Keepalived　動作検証法
-## Keepalivedを停止させる検証におけるロードバランサの動作
-## Keepalivedを停止させた場合におけるロードバランサのフェイルオーバー動作検証
-## Keepalivedを停止させることによるロードバランサのフェイルオーバー動作検証
-## Keepalivedを停止させた場合におけるロードバランサのフェイルオーバー動作検証
-ここでは、HAProxy1上で稼働しているKeepalivedを停止させることで、HAProxy2に対するフェイルオーバーが発生するか検証を行っていきます。
+
+
+## Keepalivedを用いたフェイルオーバー動作検証
+[Keepalived設定ファイルの説明](#keepalived設定ファイルの説明)にて、本アーキテクチャーにおけるロードバランサが利用するKeepalivedに対してフェイルオーバーが機能するように設定していることを説明しました。  
+ここでは、Keepalivedを停止させることでフェイルオーバーが機能するか検証を行っていきます。  
+
 IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
-
-それでは
-
-ここでは、アクティブ/スタンバイ冗長化構成ロードバランサの構築方法に従って構築したロードバランサのフェイルオーバーに関する動作検証を行こなっていきます。
 
 ```
 ssh pi@192.168.3.241
@@ -473,14 +468,14 @@ Keepalivedの稼働を停止させます。
 sudo systemctl stop keepalived
 ```
 
-Keepalivedを停止させたため、このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てが解除されているはずです。  
+Keepalivedを停止させたため、**このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てが解除されているはずです。**  
 下記のコマンドを実行し、確認します。  
 
 ```
 ip addr
 ```
 
-下図の結果より、仮想IPアドレスの割り当てが解除されていることが確認できました。  
+下図の結果より、**仮想IPアドレスの割り当てが解除されていることが確認できました。**  
 
 <img src="../images/stop_keepalived_1.png" width=100% alt=""><br>
 
@@ -495,19 +490,13 @@ sudo systemctl status keepalived
 
 <img src="../images/stop_keepalived_2.png" width=100% alt=""><br>
 
-
-```
-exit
-```
-
-
-次に、IPアドレスが192.168.3.242であるロードバランサ(HAProxy2)に対してSSH接続し、piユーザでログインします。  
+次に、IPアドレスが192.168.3.242であるロードバランサ(HAProxy2)に対してSSH接続でpiユーザでログインし、フェイルオーバーが機能しているか確認します。  
 
 ```
 ssh pi@192.168.3.242
 ```
 
-**フェイルオーバーが発生している場合、仮想IPアドレス(192.168.3.240)がこのロードバランサに割り当てられているはずです。**   
+**フェイルオーバーが機能している場合、仮想IPアドレス(192.168.3.240)がこのロードバランサ(HAProxy2)に割り当てられているはずです。**   
 下記のコマンドを実行し、確認します。  
 
 ```
@@ -518,27 +507,24 @@ ip addr
 
 <img src="../images/stop_keepalived_3.png" width=100% alt=""><br>
 
-Keepalivedの状態について確認しておきます。
+Keepalivedの状態について確認しておきます。  
 下記のコマンドを実行して下さい。
 
 ```
 sudo systemctl status keepalived
 ```
 
-下図の結果より、このロードバランサ(HAProxy2)はKeepalivedにおいて **BACKUP状態** から **MASTER状態** に遷移しているが判明しました。  
-以上より、フェイルオーバーが適切に発生していることが確認できました。  
-
+下図の結果より、このロードバランサ(HAProxy2)はKeepalivedにおいて **BACKUP状態** から **MASTER状態** に遷移していることが判明しました。  
+以上より、**フェイルオーバーが適切に機能していることが確認できました。**  
 
 <img src="../images/stop_keepalived_4.png" width=100% alt=""><br>
 
-```
-exit
-```
 
 
-## Keepalivedを再稼働させた場合におけるロードバランサのフェイルバック動作検証
-次に、Keepalivedを再稼働させた場合、フェイルバックが発生しないことを確認していきます。
-また、HAProxy1に対して　Keepalivedを再起動させた場合　フェイルバックが発生しないことを確認します。
+## Keepalivedを用いたフェイルバック動作検証
+[Keepalived設定ファイルの説明](#keepalived設定ファイルの説明)にて、本アーキテクチャーにおけるロードバランサが利用するKeepalivedに対してフェイルバックが発生しないように設定していることを説明しました。  
+ここでは、IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してKeepalivedを再稼働させた場合、フェイルバックが発生しないことを確認していきます。  
+
 もう一度、 IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
 
 ```
@@ -559,18 +545,20 @@ Keepalivedの状態について確認します。
 sudo systemctl status keepalived
 ```
 
-下図の結果からKeepalivedが起動していることが確認できました。  
+下図の結果からKeepalivedが再稼働していることが確認できました。  
 また、このロードバランサ(HAProxy1)はKeepalivedにおいて **BACKUP状態** であることが判明しました。
 
 <img src="../images/stop_keepalived_5.png" width=100% alt=""><br>
 
-Keepalivedの稼働を再開させた際、このロードバランサ(HAProxy1)はKeepalivedにおいてBACKUP状態である ことが判明しました。
-したがって、このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てられていないはずです。
+Keepalivedの稼働を再開させた際、**このロードバランサ(HAProxy1)はKeepalivedにおいてBACKUP状態である** ことが判明しました。  
+したがって、**このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てられていないはずです。**  
 下記のコマンドを実行し、確認します。
 
 ```
 ip addr
 ```
+
+下図の結果より、**仮想IPアドレスである192.168.3.240はこのロードバランサ(HAProxy1)には割り当てられておらず、フェイルバックが発生していないことが確認できました。**   
 
 <img src="../images/stop_keepalived_6.png" width=100% alt=""><br>
 
@@ -578,7 +566,7 @@ ip addr
 
 
 
-## Keepalivedを停止させた場合における検証後のアクティブ/スタンバイ冗長化構成ロードバランサの状態
+## Keepalivedを用いた検証後におけるアクティブ/スタンバイ冗長化構成ロードバランサの状態
 以上の検証より、現在のアクティブ/スタンバイ冗長化構成ロードバランサは下図のような状態になっていることが確認できました。  
 
 <img src="../images/standby_haproxy1_and_active_haproxy2.png" width=100% alt="Standby HAProxy1 and Active HAProxy2"><br>
@@ -587,69 +575,143 @@ ip addr
 
 
 
-## HAProxyを停止させることによるロードバランサのフェイルオーバー動作検証
-## HAProxyを停止させた場合におけるロードバランサのフェイルオーバー動作検証
-HAProxy2に対して　HAProxyサービスの　稼働を停止させることで、　HAProxy1に対してフェイルオーバーが発生するか　検証を行います。
-また、HAProxy2に対して　HAProxyサービスを再起動させた場合　フェイルバックが発生しないことを確認します。
-
-
+## HAProxyを用いたフェイルオーバー動作検証
+ここでは、HAProxyを停止させることでフェイルオーバーが機能するか検証を行っていきます。  
+IPアドレスが192.168.3.242であるロードバランサ(HAProxy2)に対してSSH接続し、piユーザでログインします。  
 
 ```
 ssh pi@192.168.3.242
 ```
+
+HAProxyの稼働を停止させます。  
+下記のコマンドを実行して下さい。  
 
 ```
 sudo systemctl stop haproxy
 ```
 
+HAProxyを停止させたため、**このロードバランサ(HAProxy2)には仮想IPアドレスが割り当てが解除されているはずです。**  
+下記のコマンドを実行し、確認します。  
+
 ```
 ip addr
 ```
+
+下図の結果より、**仮想IPアドレスの割り当てが解除されていることが確認できました。**  
+
+<img src="../images/stop_haproxy_1.png" width=100% alt=""><br>
+
+HAProxyの状態について確認しておきます。  
+下記のコマンドを実行して下さい。  
 
 ```
 sudo systemctl status haproxy
 ```
 
+下図の結果からHAProxyが停止していることが確認できました。
+
+<img src="../images/stop_haproxy_2.png" width=100% alt=""><br>
+
+また、Keepalivedの状態についても確認しておきます。  
+下記のコマンドを実行して下さい。  
+
 ```
 sudo systemctl status keepalived
 ```
 
-```
-exit
-```
+下図の結果より、[Keepalivedの設定ファイル](#keepalived設定ファイルの説明)のvrrp_scriptセクションで定義したchk_haproxyスクリプトが失敗したため、このロードバランサに障害が発生したとみなし、このロードバランサ(HAProxy2)はKeepalivedにおいて **MASTER状態** から **FAULT状態** に遷移していることが判明しました。  
+
+<img src="../images/stop_haproxy_3.png" width=100% alt=""><br>
+
+次に、IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してSSH接続でpiユーザでログインし、フェイルオーバーが機能しているか確認します。  
 
 ```
 ssh pi@192.168.3.241
 ```
 
+**フェイルオーバーが機能している場合、仮想IPアドレス(192.168.3.240)がこのロードバランサ(HAProxy1)に割り当てられているはずです。**  
+下記のコマンドを実行し、確認します。  
+
 ```
 ip addr
 ```
+
+下図の結果より、**仮想IPアドレスである192.168.3.240がこのロードバランサ(HAProxy1)に割り当てられていることが確認できました。**　　
+
+<img src="../images/stop_haproxy_4.png" width=100% alt=""><br>
+
+Keepalivedの状態について確認しておきます。  
+下記のコマンドを実行して下さい。  
 
 ```
 sudo systemctl status keepalived
 ```
 
-```
-exit
-```
+下図の結果より、このロードバランサ(HAProxy1)はKeepalivedにおいて **BACKUP状態** から **MASTER状態** に遷移していることが判明しました。  
+以上より、**フェイルオーバーが適切に機能していることが確認できました。**  
+
+<img src="../images/stop_haproxy_5.png" width=100% alt=""><br>
+
+
+
+
+
+## HAProxyを用いたフェイルバック動作検証
+ここでは、IPアドレスが192.168.3.242であるロードバランサ(HAProxy2)に対してHAProxyを再稼働させた場合、フェイルバックが発生しないことを確認していきます。  
+
+もう一度、 IPアドレスが192.168.3.242であるロードバランサ(HAProxy2)に対してSSH接続し、piユーザでログインします。  
 
 ```
 ssh pi@192.168.3.242
 ```
 
+HAProxyの稼働を再開させます。  
+下記のコマンドを実行して下さい。  
+
 ```
 sudo systemctl start haproxy
 ```
+
+HAProxyの状態について確認します。  
+下記のコマンドを実行して下さい。  
 
 ```
 sudo systemctl status haproxy
 ```
 
+下図の結果からHAProxyが再稼働していることが確認できました。  
+
+<img src="../images/stop_haproxy_6.png" width=100% alt=""><br>
+
+また、Keepalivedの状態についても確認しておきます。  
+下記のコマンドを実行して下さい。  
+
 ```
 sudo systemctl status keepalived
 ```
 
+下図の結果より、このロードバランサ(HAProxy2)はKeepalivedにおいて **FAULT状態** から **BACKUP状態** に遷移していることが判明しました。  
+
+<img src="../images/stop_haproxy_7.png" width=100% alt=""><br>
+
+Keepalivedの稼働を再開させた際、**このロードバランサ(HAProxy2)はKeepalivedにおいてBACKUP状態である** ことが判明しました。  
+したがって、このロードバランサ(HAProxy2)には仮想IPアドレスが割り当てられていないはずです。  
+下記のコマンドを実行し、確認します。  
+
 ```
 ip addr
 ```
+
+下図の結果より、**仮想IPアドレスである192.168.3.240はこのロードバランサ(HAProxy2)には割り当てられておらず、フェイルバックが発生していないことが確認できました。**  
+
+<img src="../images/stop_haproxy_8.png" width=100% alt=""><br>
+
+
+
+
+
+## HAProxyを用いた検証後におけるアクティブ/スタンバイ冗長化構成ロードバランサの状態
+以上の検証より、**アクティブ/スタンバイ冗長化構成ロードバランサが適切に動作していることが確認できました。**  
+なお、現在のアクティブ/スタンバイ冗長化構成ロードバランサは下図のような状態になっているはずです。  
+
+<img src="../images/active_haproxy1_and_standby_haproxy2.png" width=100% alt="Active HAProxy1 and Standby HAProxy2"><br>
