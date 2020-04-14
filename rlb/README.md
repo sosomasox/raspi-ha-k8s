@@ -202,26 +202,23 @@ HAProxyの設定では、まずフロントエンドにて待ち受けを行う�
 
 ### frontendセクション
 **frontendセクション** では、フロントエンドで待ち受けを行う条件とその条件を満たす接続を転送するバックエンドに関する設定を行うことができます。  
-本設定ファイルでは、**kube-apiserver** という名前のフロントエンドを定義しています。
+本設定ファイルでは、**kube-apiserver** という名前のフロントエンドを定義しています。  
 
 このフロントエンドの対して **bindキーワード** を使用して、待ち受けに使用するIPアドレスとポート番号として、そのロードバランサに割り当てられているすべてのIPアドレスに対し、9000番ポートで待ち受けを行うに設定しています。  
 
 _**\* ここで、仮想IPアドレスを待ち受けアドレスに指定してしてしまうと、スタンバイ状態のロードバランサでは仮想IPアドレスが設定されていないためHAProxyの起動に失敗してしまいます。**_  
 _**自分で設定ファイルを作成する場合は注意して下さい。**_  
 
-**default_backendキーワード** に対しては、bindキーワードで指定した待ち受け先に対して接続があった場合のデフォルトの転送先バックエンドとして、**"kube-apiserver"** を指定しています。
+**default_backendキーワード** に対しては、bindキーワードで指定した待ち受け先に対して接続があった場合のデフォルトの転送先バックエンドとして、**"kube-apiserver"** を指定しています。  
 
 
 
 ### backendセクション
-**backendセクション** では、バックエンドで使用するサーバーを指定することで、どの接続をどのサーバーに転送するのかというルールを設定するを行うことができます。    
+**backendセクション** では、バックエンドで使用するサーバーを指定することで、どの接続をどのサーバーに転送するのかというルールを設定するを行うことができます。  
 本設定ファイルでは、**kube-apiserver** という名前のバックエンドを定義しています。  
 
 本セクションにおける **balanceキーワード** では、負荷分散アルゴリズムを指定することができます。  
-本設定ファイルでは、balanceキーワードとして **"roundrobin"** を指定しており、ラウンドロビン方式で負荷分散を行うように設定しています。  
-
-**optionキーワード** に **"redispatch"** を設定すると
-バックエンドで指定されているサーバーの一部が故障したり、停止した状態の場合にそのサーバーに対する接続が振り分けられるのを防ぐことができる。  
+本設定ファイルでは、balanceキーワードとして **"roundrobin"** を指定しており、ラウンドロビン方式で負荷分散を行うように設定しています。   
 
 **optionキーワード** に **"redispatch"** を設定すると共に、**retriesキーワード** を設定した場合、
 バックエンドで指定されているサーバーの一部が故障したり、停止した状態の際に、retriesキーワードで設定した回数、接続が失敗したときそのサーバーに対する接続の振り分けを止め、別のサーバーにその接続を振り分けることができます。  
@@ -245,7 +242,7 @@ sudo ./build.sh
 Usage: ./build.sh HAPROXY_PORT
 ```
 
-スクリプトの引数としてアクティブ/スタンバイ冗長化構成ロードバランサで使用するリスニングポート番号を指定し、スクリプトを **sudo権限** で実行します。
+スクリプトの引数としてアクティブ/スタンバイ冗長化構成ロードバランサで使用するリスニングポート番号を指定し、スクリプトを **sudo権限** で実行します。  
 
 ```
 sudo ./build.sh 9000
@@ -278,20 +275,20 @@ _**\* bulid.shスクリプトの詳細に関しましては、[こちら](https:
 
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサの解体方法
-アクティブ/スタンバイ冗長化構成ロードバランサの解体させるには、コンポーネントとして稼働するロードバランサに対して **unbulid.sh** を実行します。
+アクティブ/スタンバイ冗長化構成ロードバランサの解体させるには、コンポーネントとして稼働するロードバランサに対して **unbulid.sh** を実行します。  
 
 ```
 sudo ./unbulid.sh
 Usage: ./unbulid.sh HAPROXY_PORT
 ```
 
-スクリプトの引数としてアクティブ/スタンバイ冗長化構成ロードバランサで使用しているリスニングポート番号を指定し、スクリプトを **sudo権限** で実行します。
+スクリプトの引数としてアクティブ/スタンバイ冗長化構成ロードバランサで使用しているリスニングポート番号を指定し、スクリプトを **sudo権限** で実行します。  
 
 ```
 sudo ./unbulid.sh
 ```
 
-ロードバランサの解体が完了すると下記のようなメッセージが現れます
+ロードバランサの解体が完了すると下記のようなメッセージが現れます。  
 
 ```
 unbuild done.
@@ -306,17 +303,16 @@ _**新しい設定ファイルを使用して再構築する場合には、[Keep
 
 
 
-## アクティブ/スタンバイ冗長化構成ロードバランサの動作検証
-ここでは、[アクティブ/スタンバイ冗長化構成ロードバランサの構築方法](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#アクティブ/スタンバイ冗長化構成ロードバランサの構築方法)に従って構築したロードバランサの動作検証を行います。
+## アクティブ/スタンバイ冗長化構成ロードバランサのフェイルオーバー動作検証
+ここでは、[アクティブ/スタンバイ冗長化構成ロードバランサの構築方法](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#アクティブ/スタンバイ冗長化構成ロードバランサの構築方法)に従って構築したロードバランサのフェイルオーバーに関する動作検証を行います。
 
+_**\* ここでは負荷分散の対象となるアクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築が完了していないため、負荷分散に関する動作検証は行いません。**_  
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサの状態確認
 まず、各ロードバランサにて、KeepalivedとHAProxyが起動しているかどうか確認し、どのロードバランサに対して仮想IPアドレスが割り当てられているか確認していきます。  
 
 
 <img src="../images/redundant_load_balancers_on_network.png" width=100% alt="Redundant Load Balancers on Network"><br>
-
-<img src="../images/redundant_load_balancers.png" width=100% alt="Redundant Load Balancers"><br>
 
 
 
@@ -338,7 +334,7 @@ sudo systemctl status keepalived
 ```
 
 下図の結果からKeepalivedが起動していることが確認できました。  
-また、systemdのログよりこのロードバランサがkeepalivedにいて **MASTER状態** であることが判明しました。  
+また、このロードバランサ(HAProxy1)はKeepalivedにおいて **MASTER状態** であることが判明しました。  
 
 <img src="../images/systemctl_status_keepalived_on_haproxy1.png" width=100% alt="systemctl status keepalived on HAProxy1"><br>
 
@@ -359,7 +355,7 @@ sudo systemctl status haproxy
 
 
 ### HAProxy1に割り当てられたIPアドレスの確認
-Keepalivedの起動確認の際、systemdのログからこのロードバランサがKeepalivedにおいてMASTER状態であることが判明しました。  
+Keepalivedの起動確認の際、**このロードバランサ(HAProxy1)はKeepalivedにおいてMASTER状態である** ことが判明しました。  
 したがって、このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てられているはずです。  
 下記のコマンドを実行し、確認します。  
 
@@ -406,7 +402,7 @@ sudo systemctl status keepalived
 ```
 
 下図の結果からKeepalivedが起動していることが確認できました。  
-また、systemdのログよりこのロードバランサがKeepalivedにおいて **BACKUP状態** であることが判明しました。  
+また、このロードバランサ(HAProxy2)はKeepalivedにおいて **BACKUP状態** であることが判明しました。  
 
 <img src="../images/systemctl_status_keepalived_on_haproxy2.png" width=100% alt="systemctl status keepalived on HAProxy2"><br>
 
@@ -427,7 +423,7 @@ sudo systemctl status haproxy
 
 
 ### HAProxy2に割り当てられたIPアドレスの確認
-Keepalivedの起動確認の際、systemdのログからこのロードバランサがkeepalivedにおいてBACKUP状態であることが判明しました。  
+Keepalivedの起動確認の際、**このロードバランサ(HAProxy2)はKeepalivedにおいてBACKUP状態である** ことが判明しました。  
 したがって、このロードバランサ(HAProxy2)には仮想IPアドレスが割り当てられていないはずです。  
 下記のコマンドを実行し、確認します。  
 
@@ -455,11 +451,205 @@ ip addr
 
 
 ## Keepalived　動作検証法
-HAProxy1に対して　keepalivedの　稼働を停止させることで、　HAProxy2に対してフェイルオーバーが発生するか　検証を行います。
+## Keepalivedを停止させる検証におけるロードバランサの動作
+## Keepalivedを停止させた場合におけるロードバランサのフェイルオーバー動作検証
+## Keepalivedを停止させることによるロードバランサのフェイルオーバー動作検証
+## Keepalivedを停止させた場合におけるロードバランサのフェイルオーバー動作検証
+ここでは、HAProxy1上で稼働しているKeepalivedを停止させることで、HAProxy2に対するフェイルオーバーが発生するか検証を行っていきます。
+IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
+
+それでは
+
+ここでは、アクティブ/スタンバイ冗長化構成ロードバランサの構築方法に従って構築したロードバランサのフェイルオーバーに関する動作検証を行こなっていきます。
+
+```
+ssh pi@192.168.3.241
+```
+
+Keepalivedの稼働を停止させます。  
+下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl stop keepalived
+```
+
+Keepalivedを停止させたため、このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てが解除されているはずです。  
+下記のコマンドを実行し、確認します。  
+
+```
+ip addr
+```
+
+下図の結果より、仮想IPアドレスの割り当てが解除されていることが確認できました。  
+
+<img src="../images/stop_keepalived_1.png" width=100% alt=""><br>
+
+Keepalivedの状態について確認しておきます。  
+下記のコマンドを実行して下さい。
+
+```
+sudo systemctl status keepalived
+```
+
+下図の結果からKeepalivedが停止していることが確認できました。  
+
+<img src="../images/stop_keepalived_2.png" width=100% alt=""><br>
+
+
+```
+exit
+```
+
+
+次に、IPアドレスが192.168.3.242であるロードバランサ(HAProxy2)に対してSSH接続し、piユーザでログインします。  
+
+```
+ssh pi@192.168.3.242
+```
+
+**フェイルオーバーが発生している場合、仮想IPアドレス(192.168.3.240)がこのロードバランサに割り当てられているはずです。**   
+下記のコマンドを実行し、確認します。  
+
+```
+ip addr
+```
+
+下図の結果より、**仮想IPアドレスである192.168.3.240がこのロードバランサ(HAProxy2)に割り当てられている** ことが確認できました。　　
+
+<img src="../images/stop_keepalived_3.png" width=100% alt=""><br>
+
+Keepalivedの状態について確認しておきます。
+下記のコマンドを実行して下さい。
+
+```
+sudo systemctl status keepalived
+```
+
+下図の結果より、このロードバランサ(HAProxy2)はKeepalivedにおいて **BACKUP状態** から **MASTER状態** に遷移しているが判明しました。  
+以上より、フェイルオーバーが適切に発生していることが確認できました。  
+
+
+<img src="../images/stop_keepalived_4.png" width=100% alt=""><br>
+
+```
+exit
+```
+
+
+## Keepalivedを再稼働させた場合におけるロードバランサのフェイルバック動作検証
+次に、Keepalivedを再稼働させた場合、フェイルバックが発生しないことを確認していきます。
+また、HAProxy1に対して　Keepalivedを再起動させた場合　フェイルバックが発生しないことを確認します。
+もう一度、 IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
+
+```
+ssh pi@192.168.3.241
+```
+
+Keepalivedの稼働を再開させます。  
+下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl start keepalived
+```
+
+Keepalivedの状態について確認します。  
+下記のコマンドを実行して下さい。
+
+```
+sudo systemctl status keepalived
+```
+
+下図の結果からKeepalivedが起動していることが確認できました。  
+また、このロードバランサ(HAProxy1)はKeepalivedにおいて **BACKUP状態** であることが判明しました。
+
+<img src="../images/stop_keepalived_5.png" width=100% alt=""><br>
+
+Keepalivedの稼働を再開させた際、このロードバランサ(HAProxy1)はKeepalivedにおいてBACKUP状態である ことが判明しました。
+したがって、このロードバランサ(HAProxy1)には仮想IPアドレスが割り当てられていないはずです。
+下記のコマンドを実行し、確認します。
+
+```
+ip addr
+```
+
+<img src="../images/stop_keepalived_6.png" width=100% alt=""><br>
 
 
 
-## Keepalivedを停止させたときのロードバランサの動作
 
 
-## HAProxyを停止させたときのロードバランサの動作
+## Keepalivedを停止させた場合における検証後のアクティブ/スタンバイ冗長化構成ロードバランサの状態
+以上の検証より、現在のアクティブ/スタンバイ冗長化構成ロードバランサは下図のような状態になっていることが確認できました。  
+
+<img src="../images/standby_haproxy1_and_active_haproxy2.png" width=100% alt="Standby HAProxy1 and Active HAProxy2"><br>
+
+
+
+
+
+## HAProxyを停止させることによるロードバランサのフェイルオーバー動作検証
+## HAProxyを停止させた場合におけるロードバランサのフェイルオーバー動作検証
+HAProxy2に対して　HAProxyサービスの　稼働を停止させることで、　HAProxy1に対してフェイルオーバーが発生するか　検証を行います。
+また、HAProxy2に対して　HAProxyサービスを再起動させた場合　フェイルバックが発生しないことを確認します。
+
+
+
+```
+ssh pi@192.168.3.242
+```
+
+```
+sudo systemctl stop haproxy
+```
+
+```
+ip addr
+```
+
+```
+sudo systemctl status haproxy
+```
+
+```
+sudo systemctl status keepalived
+```
+
+```
+exit
+```
+
+```
+ssh pi@192.168.3.241
+```
+
+```
+ip addr
+```
+
+```
+sudo systemctl status keepalived
+```
+
+```
+exit
+```
+
+```
+ssh pi@192.168.3.242
+```
+
+```
+sudo systemctl start haproxy
+```
+
+```
+sudo systemctl status haproxy
+```
+
+```
+sudo systemctl status keepalived
+```
+
+```
+ip addr
+```
