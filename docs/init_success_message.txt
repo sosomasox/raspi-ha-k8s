@@ -1,0 +1,127 @@
+pi@makina-master1:~/Build_HA_RasPi_K8s_Cluster/scripts $ sudo ./init.sh 192.168.3.252 192.168.3.253
+[preflight] running pre-flight checks
+[reset] no etcd config found. Assuming external etcd
+[reset] please manually reset etcd to prevent further issues
+[reset] stopping the kubelet service
+[reset] unmounting mounted directories in "/var/lib/kubelet"
+[reset] deleting contents of stateful directories: [/var/lib/kubelet /etc/cni/net.d /var/lib/dockershim /var/run/kubernetes]
+[reset] deleting contents of config directories: [/etc/kubernetes/manifests /etc/kubernetes/pki]
+[reset] deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
+
+The reset process does not reset or clean up iptables rules or IPVS tables.
+If you wish to reset iptables, you must do so manually.
+For example:
+iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+
+If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
+to reset your system's IPVS tables.
+
+[init] Using Kubernetes version: v1.13.5
+[preflight] Running pre-flight checks
+	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 19.03.8. Latest validated version: 18.06
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Activating the kubelet service
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [makina-master1 localhost] and IPs [192.168.3.251 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [makina-master1 localhost] and IPs [192.168.3.251 127.0.0.1 ::1]
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [makina-master1 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.3.251 192.168.3.240 192.168.3.240]
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[endpoint] WARNING: port specified in controlPlaneEndpoint overrides bindPort in the controlplane address
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[endpoint] WARNING: port specified in controlPlaneEndpoint overrides bindPort in the controlplane address
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[endpoint] WARNING: port specified in controlPlaneEndpoint overrides bindPort in the controlplane address
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[endpoint] WARNING: port specified in controlPlaneEndpoint overrides bindPort in the controlplane address
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[kubelet-check] Initial timeout of 40s passed.
+[apiclient] All control plane components are healthy after 100.106950 seconds
+[uploadconfig] storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config-1.13" in namespace kube-system with the configuration for the kubelets in the cluster
+[patchnode] Uploading the CRI Socket information "/var/run/dockershim.sock" to the Node API object "makina-master1" as an annotation
+[mark-control-plane] Marking the node makina-master1 as control-plane by adding the label "node-role.kubernetes.io/master=''"
+[mark-control-plane] Marking the node makina-master1 as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+[bootstrap-token] Using token: c4xmd2.zjodd1afdkqfdu7x
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstraptoken] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstraptoken] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstraptoken] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstraptoken] creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[addons] Applied essential addon: CoreDNS
+[endpoint] WARNING: port specified in controlPlaneEndpoint overrides bindPort in the controlplane address
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes master has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of machines by running the following on each node
+as root:
+
+  kubeadm join 192.168.3.240:9000 --token c4xmd2.zjodd1afdkqfdu7x --discovery-token-ca-cert-hash sha256:09fe91258373dcefcbc678fb319d3fd18a56609fcdf60114d28f3aa4fa60ef8e
+
+podsecuritypolicy.policy/psp.flannel.unprivileged created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds-amd64 created
+daemonset.apps/kube-flannel-ds-arm64 created
+daemonset.apps/kube-flannel-ds-arm created
+daemonset.apps/kube-flannel-ds-ppc64le created
+daemonset.apps/kube-flannel-ds-s390x created
+ca.crt                                                                                                                  100% 1025   935.6KB/s   00:00
+ca.key                                                                                                                  100% 1679     2.0MB/s   00:00
+sa.key                                                                                                                  100% 1675     2.1MB/s   00:00
+sa.pub                                                                                                                  100%  451   777.8KB/s   00:00
+front-proxy-ca.crt                                                                                                      100% 1038     1.0MB/s   00:00
+front-proxy-ca.key                                                                                                      100% 1679     1.9MB/s   00:00
+etcd-ca.crt                                                                                                             100% 1017     1.6MB/s   00:00
+etcd-ca.key                                                                                                             100% 1675     1.1MB/s   00:00
+admin.conf                                                                                                              100% 5453     4.6MB/s   00:00
+Connection to 192.168.3.252 closed.
+cp certs done.
+Connection to 192.168.3.252 closed.
+ca.crt                                                                                                                  100% 1025     1.5MB/s   00:00
+ca.key                                                                                                                  100% 1679     2.0MB/s   00:00
+sa.key                                                                                                                  100% 1675     1.7MB/s   00:00
+sa.pub                                                                                                                  100%  451   618.3KB/s   00:00
+front-proxy-ca.crt                                                                                                      100% 1038     1.4MB/s   00:00
+front-proxy-ca.key                                                                                                      100% 1679     1.7MB/s   00:00
+etcd-ca.crt                                                                                                             100% 1017     1.3MB/s   00:00
+etcd-ca.key                                                                                                             100% 1675     2.3MB/s   00:00
+admin.conf                                                                                                              100% 5453     5.5MB/s   00:00
+Connection to 192.168.3.253 closed.
+cp certs done.
+Connection to 192.168.3.253 closed.
+set certs done.
+init done.
