@@ -23,6 +23,16 @@ cp -f /etc/kubernetes/pki/etcd/ca.crt        /home/pi/Build_HA_RasPi_K8s_Cluster
 cp -f /etc/kubernetes/pki/etcd/ca.key        /home/pi/Build_HA_RasPi_K8s_Cluster/certs/etcd-ca.key
 cp -f /etc/kubernetes/admin.conf             /home/pi/Build_HA_RasPi_K8s_Cluster/certs/admin.conf
 
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/ca.crt
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/ca.key
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/sa.key
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/sa.pub
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/front-proxy-ca.crt
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/front-proxy-ca.key
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/etcd-ca.crt
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/etcd-ca.key
+chown pi:pi /home/pi/Build_HA_RasPi_K8s_Cluster/certs/admin.conf
+
 for host in $@; do
     sudo -u pi scp /home/pi/Build_HA_RasPi_K8s_Cluster/certs/ca.crt             "${USER}"@$host:Build_HA_RasPi_K8s_Cluster/certs/
     sudo -u pi scp /home/pi/Build_HA_RasPi_K8s_Cluster/certs/ca.key             "${USER}"@$host:Build_HA_RasPi_K8s_Cluster/certs/
