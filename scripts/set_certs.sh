@@ -43,8 +43,8 @@ for host in $@; do
     sudo -u pi scp /home/pi/Build_HA_RasPi_K8s_Cluster/certs/etcd-ca.crt        "${USER}"@$host:Build_HA_RasPi_K8s_Cluster/certs/
     sudo -u pi scp /home/pi/Build_HA_RasPi_K8s_Cluster/certs/etcd-ca.key        "${USER}"@$host:Build_HA_RasPi_K8s_Cluster/certs/
     sudo -u pi scp /home/pi/Build_HA_RasPi_K8s_Cluster/certs/admin.conf         "${USER}"@$host:Build_HA_RasPi_K8s_Cluster/certs/
-    ssh -t "${USER}"@$host "chmod +x Build_HA_RasPi_K8s_Cluster/scripts/cp_certs.sh"
-    ssh -t "${USER}"@$host "sudo Build_HA_RasPi_K8s_Cluster/scripts/cp_certs.sh"
+    sudo -u pi ssh -t "${USER}"@$host "chmod +x Build_HA_RasPi_K8s_Cluster/scripts/cp_certs.sh"
+    sudo -u pi ssh -t "${USER}"@$host "sudo Build_HA_RasPi_K8s_Cluster/scripts/cp_certs.sh"
 
 done
 
