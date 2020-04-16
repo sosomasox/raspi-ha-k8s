@@ -151,7 +151,6 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
 
 
 ## アクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築
-現在、作成中です。(2020年4月13日)
 ここでは、アクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築を行っていきます。  
 
 <img src="./images/redundant_kubernetes_master_nodes.png" width=100% alt="Redundant Kubernetes Master Nodes"><br>
