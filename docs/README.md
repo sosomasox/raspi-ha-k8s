@@ -161,9 +161,7 @@ kubectl -n kube-system get pods -o wide
 ```
 
 対象のマスターノード上にて、etcdのPodが起動していない場合、起動するまで待って下さい。  
-etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
-
-その後、下記のコマンドを実行します。  
+etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。   
 
 ```
 sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
@@ -249,8 +247,6 @@ kubectl -n kube-system get pods -o wide
 対象のマスターノード上にて、etcdのPodが起動していない場合、起動するまで待って下さい。  
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
 
-その後、下記のコマンドを実行します。  
-
 ```
 sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
 kubectl label node `hostname` node-role.kubernetes.io/master=''
@@ -329,8 +325,6 @@ kubectl -n kube-system get pods -o wide
 
 対象のマスターノード上にて、etcdのPodが起動していない場合、起動するまで待って下さい。  
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
-
-その後、下記のコマンドを実行します。  
 
 ```
 sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
@@ -413,9 +407,7 @@ kubectl -n kube-system get pods -o wide
 ```
 
 対象のマスターノード上にて、etcdのPodが起動していない場合、起動するまで待って下さい。  
-etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
-
-その後、下記のコマンドを実行します。  
+etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。   
 
 ```
 sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
@@ -498,8 +490,6 @@ kubectl -n kube-system get pods -o wide
 
 対象のマスターノード上にて、etcdのPodが起動していない場合、起動するまで待って下さい。  
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
-
-その後、下記のコマンドを実行します。  
 
 ```
 sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
