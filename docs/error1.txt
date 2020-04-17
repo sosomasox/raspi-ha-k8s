@@ -1,0 +1,34 @@
+pi@makina-master3:~ $ sudo kubeadm join 192.168.3.240:9000 --token o5g8v9.mwqkevubeq8u66wu --discovery-token-ca-cert-hash sha256:d37194065c68d4f8e76e8bddc928f94c7923520be0189f391eb7d79fc5f27973 --experimental-control-plane
+[preflight] Running pre-flight checks
+	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 19.03.8. Latest validated version: 18.06
+[discovery] Trying to connect to API Server "192.168.3.240:9000"
+[discovery] Created cluster-info discovery client, requesting info from "https://192.168.3.240:9000"
+[discovery] Failed to request cluster info, will try again: [Get https://192.168.3.240:9000/api/v1/namespaces/kube-public/configmaps/cluster-info: unexpected EOF]
+[discovery] Failed to request cluster info, will try again: [Get https://192.168.3.240:9000/api/v1/namespaces/kube-public/configmaps/cluster-info: unexpected EOF]
+[discovery] Failed to request cluster info, will try again: [Get https://192.168.3.240:9000/api/v1/namespaces/kube-public/configmaps/cluster-info: unexpected EOF]
+[discovery] Failed to request cluster info, will try again: [Get https://192.168.3.240:9000/api/v1/namespaces/kube-public/configmaps/cluster-info: unexpected EOF]
+[discovery] Requesting info from "https://192.168.3.240:9000" again to validate TLS against the pinned public key
+[discovery] Cluster info signature and contents are valid and TLS certificate validates against pinned roots, will use API Server "192.168.3.240:9000"
+[discovery] Successfully established connection with API Server "192.168.3.240:9000"
+[join] Reading configuration from the cluster...
+[join] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
+[join] Running pre-flight checks before initializing the new control plane instance
+	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 19.03.8. Latest validated version: 18.06
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [makina-master3 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.3.253 192.168.3.240 192.168.3.240]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [makina-master3 localhost] and IPs [192.168.3.253 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [makina-master3 localhost] and IPs [192.168.3.253 127.0.0.1 ::1]
+[certs] valid certificates and keys now exist in "/etc/kubernetes/pki"
+[certs] Using the existing "sa" key
+[endpoint] WARNING: port specified in controlPlaneEndpoint overrides bindPort in the controlplane address
+[kubeconfig] Using existing up-to-date kubeconfig file: "/etc/kubernetes/admin.conf"
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[etcd] Checking etcd cluster health
+Get https://192.168.3.240:9000/api/v1/namespaces/kube-system/configmaps/kubeadm-config: unexpected EOF
