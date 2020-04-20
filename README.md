@@ -142,7 +142,7 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
 
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサの構築
-**アクティブ/スタンバイ冗長化構成ロードバランサ** の構築方法に関しましては、[**こちら**](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb)を参照して下さい。
+**アクティブ/スタンバイ冗長化構成ロードバランサ** の構築方法に関しましては、[**こちら**](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb)を参照して下さい。
 
 <img src="./images/redundant_load_balancers_and_redundant_kubernetes_master_nodes_on_network.png" width=100% alt="Redundant Load Balancers and Redundant Kubernetes Master Nodes on Network"><br>
 
@@ -159,8 +159,8 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
 
 ```
 cd $HOME
-git clone https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster.git
-cd Build_HA_RasPi_K8s_Cluster/scripts && chmod +x *
+git clone https://github.com/izewfktvy533zjmn/raspi-ha-k8s.git
+cd raspi-ha-k8s/scripts && chmod +x *
 ```
 
 
@@ -203,7 +203,7 @@ ssh pi@192.168.3.251
 make kubeadm-config.yaml done.
 ```
 
-**Build_HA_RasPi_K8s_Cluster/manifests** フォルダ直下に、下記の内容の **kubeadm-config.yaml** ファイルが作成されていることを確認します。  
+**raspi-ha-k8s/manifests** フォルダ直下に、下記の内容の **kubeadm-config.yaml** ファイルが作成されていることを確認します。  
 
 ```
 apiVersion: kubeadm.k8s.io/v1beta1
@@ -242,7 +242,7 @@ sudo ./init.sh 192.168.3.252 192.168.3.253
 
 
 ```
-pi@makina-master1:~/Build_HA_RasPi_K8s_Cluster/scripts $ sudo ./init.sh 192.168.3.252 192.168.3.253
+pi@makina-master1:~/raspi-ha-k8s/scripts $ sudo ./init.sh 192.168.3.252 192.168.3.253
 [preflight] running pre-flight checks
 [reset] no etcd config found. Assuming external etcd
 [reset] please manually reset etcd to prevent further issues
@@ -394,7 +394,7 @@ if [ $# -lt 1 ]; then
 fi
 
 kubeadm reset -f
-kubeadm init --config=/home/pi/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
+kubeadm init --config=/home/pi/raspi-ha-k8s/manifests/kubeadm-config.yaml
 
 rm -rf /home/pi/.kube
 sudo -u pi mkdir -p /home/pi/.kube
@@ -405,11 +405,11 @@ sleep 60
 sudo -u pi kubectl apply -f /home/pi/Build_RasPi_Kubernetes_Cluster/cni/kube-flannel_v0.12.0-arm.yaml
 sleep 30
 
-chmod +x /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/set_certs.sh
-/home/pi/Build_HA_RasPi_K8s_Cluster/scripts/set_certs.sh $@
+chmod +x /home/pi/raspi-ha-k8s/scripts/set_certs.sh
+/home/pi/raspi-ha-k8s/scripts/set_certs.sh $@
 
-chmod +x /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/scp_kubeadm-config.sh
-sudo -u pi /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/scp_kubeadm-config.sh $@
+chmod +x /home/pi/raspi-ha-k8s/scripts/scp_kubeadm-config.sh
+sudo -u pi /home/pi/raspi-ha-k8s/scripts/scp_kubeadm-config.sh $@
 
 echo 'init done.'
 
@@ -512,4 +512,4 @@ Run 'kubectl get nodes' to see this node join the cluster.
 
 
 ## クラスターへの参加時にエラーが発生した場合
-コントロールプレーンによるクラスターへの参加時にエラーが発生した場合の対処方法に関しましては、[**こちら**](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/docs)を参照して下さい。
+コントロールプレーンによるクラスターへの参加時にエラーが発生した場合の対処方法に関しましては、[**こちら**](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/docs)を参照して下さい。

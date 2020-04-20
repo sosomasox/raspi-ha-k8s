@@ -1,5 +1,5 @@
 # コントロールプレーンによるクラスターへの参加時にエラーが発生した場合の対処方法
-これは、[コントロールプレーンによるクラスターへの参加](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster#コントロールプレーンによるクラスターへの参加)を実施した時に発生したエラーへの対処方法をまとめたものです。  
+これは、[コントロールプレーンによるクラスターへの参加](https://github.com/izewfktvy533zjmn/raspi-ha-k8s#コントロールプレーンによるクラスターへの参加)を実施した時に発生したエラーへの対処方法をまとめたものです。  
 
 
 
@@ -111,7 +111,7 @@ suod rm -rf /etc/kubernetes/kubelet.conf
 joinコマンド実行後、下記のようなメッセージが現れました。  
 
 ```
-pi@makina-master3:~/Build_HA_RasPi_K8s_Cluster $ sudo kubeadm join 192.168.3.240:9000 --token lbeqhh.45h59a1g7a0con9c --discovery-token-ca-cert-hash sha256:55a07d3b3c3495253c6b67bc8083e5986c228a07b01381582df0b8f0a1a818f0 --experimental-control-plane --ignore-preflight-errors=DirAvailable--etc-kubernetes-manifests
+pi@makina-master3:~/raspi-ha-k8s $ sudo kubeadm join 192.168.3.240:9000 --token lbeqhh.45h59a1g7a0con9c --discovery-token-ca-cert-hash sha256:55a07d3b3c3495253c6b67bc8083e5986c228a07b01381582df0b8f0a1a818f0 --experimental-control-plane --ignore-preflight-errors=DirAvailable--etc-kubernetes-manifests
 [preflight] Running pre-flight checks
 	[WARNING DirAvailable--etc-kubernetes-manifests]: /etc/kubernetes/manifests is not empty
 	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 19.03.8. Latest validated version: 18.06
@@ -164,7 +164,7 @@ kubectl -n kube-system get pods -o wide
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。   
 
 ```
-sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
+sudo kubeadm init phase upload-config kubeadm --config=$HOME/raspi-ha-k8s/manifests/kubeadm-config.yaml
 kubectl label node `hostname` node-role.kubernetes.io/master=''
 kubectl taint node `hostname` node-role.kubernetes.io/master=:NoSchedule
 ```
@@ -248,7 +248,7 @@ kubectl -n kube-system get pods -o wide
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
 
 ```
-sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
+sudo kubeadm init phase upload-config kubeadm --config=$HOME/raspi-ha-k8s/manifests/kubeadm-config.yaml
 kubectl label node `hostname` node-role.kubernetes.io/master=''
 kubectl taint node `hostname` node-role.kubernetes.io/master=:NoSchedule
 ```
@@ -327,7 +327,7 @@ kubectl -n kube-system get pods -o wide
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
 
 ```
-sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
+sudo kubeadm init phase upload-config kubeadm --config=$HOME/raspi-ha-k8s/manifests/kubeadm-config.yaml
 kubectl label node `hostname` node-role.kubernetes.io/master=''
 kubectl taint node `hostname` node-role.kubernetes.io/master=:NoSchedule
 ```
@@ -410,7 +410,7 @@ kubectl -n kube-system get pods -o wide
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。   
 
 ```
-sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
+sudo kubeadm init phase upload-config kubeadm --config=$HOME/raspi-ha-k8s/manifests/kubeadm-config.yaml
 kubectl label node `hostname` node-role.kubernetes.io/master=''
 kubectl taint node `hostname` node-role.kubernetes.io/master=:NoSchedule
 ```
@@ -421,7 +421,7 @@ kubectl taint node `hostname` node-role.kubernetes.io/master=:NoSchedule
 joinコマンド実行後、下記のようなメッセージが現れました。  
 
 ```
-pi@makina-master2:~/Build_HA_RasPi_K8s_Cluster $ sudo kubeadm join 192.168.3.240:9000 --token lbeqhh.45h59a1g7a0con9c --discovery-token-ca-cert-hash sha256:55a07d3b3c3495253c6b67bc8083e5986c228a07b01381582df0b8f0a1a818f0 --experimental-control-plane
+pi@makina-master2:~/raspi-ha-k8s $ sudo kubeadm join 192.168.3.240:9000 --token lbeqhh.45h59a1g7a0con9c --discovery-token-ca-cert-hash sha256:55a07d3b3c3495253c6b67bc8083e5986c228a07b01381582df0b8f0a1a818f0 --experimental-control-plane
 [preflight] Running pre-flight checks
 	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 19.03.8. Latest validated version: 18.06
 [discovery] Trying to connect to API Server "192.168.3.240:9000"
@@ -492,7 +492,7 @@ kubectl -n kube-system get pods -o wide
 etcdのPod起動が確認できたら、下記のコマンドを実行して下さい。  
 
 ```
-sudo kubeadm init phase upload-config kubeadm --config=$HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml
+sudo kubeadm init phase upload-config kubeadm --config=$HOME/raspi-ha-k8s/manifests/kubeadm-config.yaml
 kubectl label node `hostname` node-role.kubernetes.io/master=''
 kubectl taint node `hostname` node-role.kubernetes.io/master=:NoSchedule
 ```

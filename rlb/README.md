@@ -1,9 +1,9 @@
 # アクティブ/スタンバイ冗長化構成ロードバランサの構築
 ## はじめに
-[本アーキテクチャー](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/READMD.md#アーキテクチャー)において、**アクティブ/スタンバイ冗長化構成ロードバランサ** はアクティブ/アクティブ冗長化構成Kubernetesマスターノード群に対するクラスター操作のAPIリクエストを受け取り、各マスターノードのkube-apiserverにリクエストを振り分ける役割を担っています。  
+[本アーキテクチャー](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/READMD.md#アーキテクチャー)において、**アクティブ/スタンバイ冗長化構成ロードバランサ** はアクティブ/アクティブ冗長化構成Kubernetesマスターノード群に対するクラスター操作のAPIリクエストを受け取り、各マスターノードのkube-apiserverにリクエストを振り分ける役割を担っています。  
 
 
-[本アーキテクチャーのネットワーク構成](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/READMD.md#ネットワーク構成)において、アクティブ/スタンバイ冗長化構成ロードバランサのIPアドレスとして仮想IPアドレスである **192.168.3.240/24** を割り当て、ポート番号9000番をリスニングポートとして設定することにしました。  
+[本アーキテクチャーのネットワーク構成](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/READMD.md#ネットワーク構成)において、アクティブ/スタンバイ冗長化構成ロードバランサのIPアドレスとして仮想IPアドレスである **192.168.3.240/24** を割り当て、ポート番号9000番をリスニングポートとして設定することにしました。  
 また、アクティブ/アクティブ冗長化構成Kubernetesマスターノード群のコンポーネントとして稼働する3台のマスターノードに対してはそれぞれ **192.168.3.251/24** と **192.168.3.252/24** 、**192.168.3.253/24** を割り当てることにしました。  
 
 
@@ -16,8 +16,8 @@
 
 ```
 cd $HOME
-git clone https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster.git
-cd Build_HA_RasPi_K8s_Cluster/rlb/scripts && chmod +x *
+git clone https://github.com/izewfktvy533zjmn/raspi-ha-k8s.git
+cd raspi-ha-k8s/rlb/scripts && chmod +x *
 ```
 
 
@@ -45,7 +45,7 @@ Usage: ./make_keepalived-conf.sh VIRTUAL_IP_ADDRESS
 make keepalived.conf done.
 ```
 
-Build_HA_RasPi_K8s_Cluster/rlb/config フォルダ直下に、下記の内容の **keepalived.conf** ファイルが作成されていることを確認します。  
+raspi-ha-k8s/rlb/config フォルダ直下に、下記の内容の **keepalived.conf** ファイルが作成されていることを確認します。  
 
 ```
 vrrp_script chk_haproxy {
@@ -116,7 +116,7 @@ Usage: ./make_haproxy-cfg.sh HAPROXY_PORT CONTROL_PLANES...
 make haproxy.cfg done.
 ```
 
-Build_HA_RasPi_K8s_Cluster/rlb/config フォルダ直下に、下記の内容の **haproxy.cfg** ファイルが作成されていることを確認します。  
+raspi-ha-k8s/rlb/config フォルダ直下に、下記の内容の **haproxy.cfg** ファイルが作成されていることを確認します。  
 
 ```
 global
@@ -261,7 +261,7 @@ build done.
 その後、[Keepalived設定ファイルの作成](#keepalived設定ファイルの作成)と
 [HAProxy設定ファイルの作成](#haproxy設定ファイルの作成)で作成した設定ファイルをsystemdの環境変数として設定されている各サービスのエントリポイントに設置し、KeepalivedとHAProxyを起動させることでロードバランサの構築を完了させます。  
 
-_**\* bulid.shスクリプトの詳細に関しましては、[こちら](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/scripts/build.sh)を参照して下さい。**_
+_**\* bulid.shスクリプトの詳細に関しましては、[こちら](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb/scripts/build.sh)を参照して下さい。**_
 
 
 
@@ -293,7 +293,7 @@ sudo ./unbulid.sh
 unbuild done.
 ```
 
-_**\* unbulid.shスクリプトの詳細に関しましては、[こちら](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/scripts/unbuild.sh)を参照して下さい。**_  
+_**\* unbulid.shスクリプトの詳細に関しましては、[こちら](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb/scripts/unbuild.sh)を参照して下さい。**_  
 _**なお、一度作成したKeepalivedの設定ファイルとHAProxyの設定をそのまま使用して再構築する場合には、もう一度 build.shスクリプトを実行します。**_  
 _**新しい設定ファイルを使用して再構築する場合には、[Keepalived設定ファイルの作成](#keepalived設定ファイルの作成)と
 [HAProxy設定ファイルの作成](#haproxy設定ファイルの作成)からやり直す必要があります。**_
@@ -436,7 +436,7 @@ ip addr
 
 
 ### HAProxy2のリスニングポートが開放されていることの確認
-[HAProxy1のリスニングポートが開放されていることの確認](https://github.com/izewfktvy533zjmn/Build_HA_RasPi_K8s_Cluster/tree/master/rlb/READMD.md#HAProxy1のリスニングポートが開放されていることの確認)と同様の手順を実施し、確認して下さい。  
+[HAProxy1のリスニングポートが開放されていることの確認](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb/READMD.md#HAProxy1のリスニングポートが開放されていることの確認)と同様の手順を実施し、確認して下さい。  
 
 
 

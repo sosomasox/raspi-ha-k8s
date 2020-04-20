@@ -1,4 +1,4 @@
-pi@makina-master1:~/Build_HA_RasPi_K8s_Cluster/scripts $ sudo ./init.sh 192.168.3.252 192.168.3.253
+pi@makina-master1:~/raspi-ha-k8s/scripts $ sudo ./init.sh 192.168.3.252 192.168.3.253
 [preflight] running pre-flight checks
 [reset] no etcd config found. Assuming external etcd
 [reset] please manually reset etcd to prevent further issues
