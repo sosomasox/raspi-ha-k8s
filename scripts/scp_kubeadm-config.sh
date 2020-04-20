@@ -10,12 +10,12 @@ if [ $# -lt 1 ]; then
     echo "Usage: $0 CONTROL_PLANE_NODES_IP_ADDRESS..."
     exit 1
 fi
- 
+
 USER=pi
 
 for host in $@; do
-    ssh -t "${USER}"@$host "rm -rf Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml"
-    scp $HOME/Build_HA_RasPi_K8s_Cluster/manifests/kubeadm-config.yaml "${USER}"@$host:Build_HA_RasPi_K8s_Cluster/manifests/
+    ssh -t "${USER}"@$host "rm -rf raspi-ha-k8s/manifests/kubeadm-config.yaml"
+    scp $HOME/raspi-ha-k8s/manifests/kubeadm-config.yaml "${USER}"@$host:raspi-ha-k8s/manifests/
 done
 
 echo 'scp kubeadm-config.yaml done.'

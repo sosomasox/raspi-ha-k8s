@@ -7,11 +7,11 @@ if [ $(whoami) != "root" ]; then
 fi
 
 iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
-chmod +x /home/pi/Build_HA_RasPi_K8s_Cluster/scripts/clean_network_if.sh
-/home/pi/Build_HA_RasPi_K8s_Cluster/scripts/clean_network_if.sh
+chmod +x /home/pi/raspi-ha-k8s/scripts/clean_network_if.sh
+/home/pi/raspi-ha-k8s/scripts/clean_network_if.sh
 rm -rf /home/pi/.kube
 
-echo 
+echo
 echo 'recover done.'
 echo 'You should reboot your Raspberry Pi.'
 
