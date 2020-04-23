@@ -20,7 +20,7 @@ cp -i /etc/kubernetes/admin.conf /home/pi/.kube/config
 chown pi:pi /home/pi/.kube/config
 
 sleep 60
-sudo -u pi kubectl apply -f /home/pi/Build_RasPi_Kubernetes_Cluster/cni/kube-flannel_v0.12.0-arm.yaml
+sudo -u pi kubectl apply -f /home/pi/raspi-k8s/cni/kube-flannel_v0.12.0-arm.yaml
 sleep 30
 
 chmod +x /home/pi/raspi-ha-k8s/scripts/set_certs.sh

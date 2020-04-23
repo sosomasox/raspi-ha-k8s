@@ -24,7 +24,7 @@ Kubernetesワーカーノード群はKubernetesマスターノード群によっ
 アクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築、アクティブ/スタンバイ冗長化構成ロードバランサの構築が完了したらワーカーノードをクラスターに参加させ、ワーカーノード群を形成します。  
 
 Kubernetesワーカーノード群の構築に関しましては高可用性Kubernetesクラスターの構築に直接的に関与しないため、ワーカーノードをクラスターに参加させる方法、クラスターの動作検証の方法などについては言及しません。  
-ワーカノードをクラスターに参加させる方法に関しましては[ワーカーノードの設定](https://github.com/izewfktvy533zjmn/Build_RasPi_Kubernetes_Cluster/blob/master/README.md#%E3%83%AF%E3%83%BC%E3%82%AB%E3%83%BC%E3%83%8E%E3%83%BC%E3%83%89%E3%81%AE%E8%A8%AD%E5%AE%9A)をクラスターの動作検証の方法に関しましては[Kubernetesクラスターの動作検証方法](https://github.com/izewfktvy533zjmn/Build_RasPi_Kubernetes_Cluster/blob/master/README.md#kubernetes%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E3%83%BC%E3%81%AE%E5%8B%95%E4%BD%9C%E6%A4%9C%E8%A8%BC%E6%96%B9%E6%B3%95)を参考にして下さい。  
+ワーカノードをクラスターに参加させる方法に関しましては[ワーカーノードの設定](https://github.com/izewfktvy533zjmn/raspi-k8s/blob/master/README.md#ワーカーノードの設定)をクラスターの動作検証の方法に関しましては[Kubernetesクラスターの動作検証方法](https://github.com/izewfktvy533zjmn/raspi-k8s/blob/master/README.md#kubernetesクラスターの動作検証方法)を参考にして下さい。  
 
 
 
@@ -106,7 +106,7 @@ etcdクラスターを構築する方法として、[Kubernetes公式ドキュ�
 - マスターノードは他の全てのマスターノードに対し、公開鍵認証でSSH接続できること
 - kubeadmとkubelet、kubectlがマスターノードとワーカーノードにインストールされており、Kubernetesクラスターを構築する環境が整っていること
 
-_**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整える場合、[ラズパイKubernetesシングルコントロールプレーンクラスターの構築](https://github.com/izewfktvy533zjmn/Build_RasPi_Kubernetes_Cluster)を参考にすることを推奨します。**_
+_**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整える場合、[ラズパイKubernetesシングルコントロールプレーンクラスターの構築](https://github.com/izewfktvy533zjmn/raspi-k8s)を参考にすることを推奨します。**_
 
 
 
@@ -159,6 +159,7 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
 
 ```
 cd $HOME
+git clone https://github.com/izewfktvy533zjmn/raspi-k8s.git
 git clone https://github.com/izewfktvy533zjmn/raspi-ha-k8s.git
 cd raspi-ha-k8s/scripts && chmod +x *
 ```
@@ -402,7 +403,7 @@ cp -i /etc/kubernetes/admin.conf /home/pi/.kube/config
 chown pi:pi /home/pi/.kube/config
 
 sleep 60
-sudo -u pi kubectl apply -f /home/pi/Build_RasPi_Kubernetes_Cluster/cni/kube-flannel_v0.12.0-arm.yaml
+sudo -u pi kubectl apply -f /home/pi/raspi-k8s/cni/kube-flannel_v0.12.0-arm.yaml
 sleep 30
 
 chmod +x /home/pi/raspi-ha-k8s/scripts/set_certs.sh
