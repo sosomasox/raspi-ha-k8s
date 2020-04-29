@@ -20,6 +20,8 @@ git clone https://github.com/izewfktvy533zjmn/raspi-ha-k8s.git
 cd raspi-ha-k8s/rlb/scripts && chmod +x *
 ```
 
+&nbsp;
+
 
 
 
@@ -71,11 +73,14 @@ vrrp_instance HA-CLUSTER {
 }
 ```
 
+&nbsp;
+
 
 
 ## Keepalived設定ファイルの説明
 上記の設定ファイルの内容に関して少し説明しておきます。  
 
+&nbsp;
 
 ### vrrp_scriptセクション
 **vrrp_scriptセクション** にて、HAProxyに対するヘルスチェックの内容を定義しています。  
@@ -84,6 +89,7 @@ vrrp_instance HA-CLUSTER {
 
 また、ロードバランサに対するヘルスチェックが3回連続で失敗した場合には障害が発生したとみなし、一方で、障害が発生したロードバランサに対するヘルスチェックが2回連続で成功した場合にはロードバランサが復旧したとみなすように **fallパラメータ** と **riseパラメータ** に対する設定を行っています。  
 
+&nbsp;
 
 ### vrrp_instanceセクション
 **vrrp_instanceセクション** にて、**stateパラメータ** をBACKUP、**priorityパラメータ** を同じ値にすることで、Keepalivedを先に起動させたロードバランサをアクティブ状態、後に起動させたロードバランサをスタンバイ状態として稼働させるようにしています。  
@@ -93,6 +99,8 @@ vrrp_instance HA-CLUSTER {
 **virtual_ipaddressブロック** では仮想IPアドレスを設定し、**track_scriptブロック** にてvrrp_scriptセクションで定義したヘルスチェックを実行するように設定しています。  
 
 上記の設定により、HAProxyに対するヘルスチェックが失敗したり、Keepalivedに障害が発生した場合にフェイルオーバーを機能させることができるため、スタンバイ状態のロードバランサが仮想IPアドレスを引き継いだ上でアクティブ状態に遷移し、高可用性Kubernetesクラスターのロードバランサとしての機能を継続させることができます。  
+
+&nbsp;
 
 
 
@@ -166,16 +174,20 @@ backend kube-apiserver
     server master3 192.168.3.253:6443 check inter 3000ms rise 30 fall 3
 ```
 
+&nbsp;
+
 
 
 ## HAProxy設定ファイルの説明
 上記の設定ファイルの内容に関して少し説明しておきます。  
 
+&nbsp;
 
 ### globalセクション
 **globalセクション** では、ログの設定やプロセスの実行に使用するユーザー/グループの設定、PIDファイルのパスの指定などHAProxyのプロセス全体で共有するパラメータを設定することができます。  
 なお、これらの設定項目はデフォルト値が記述された設定ファイルの内容そのものです。
 
+&nbsp;
 
 ### defaultsセクション
 **defaultsセクション** はglobalセクション以外のセクションにおけるパラメータのデフォルト値を指定できるセクションで、複数のセクションで共通するパラメータの設定を行いたい場合に使用します。  
@@ -187,18 +199,21 @@ backend kube-apiserver
 
 それに加えて、**timeout clientキーワード** に対して設定を行うことで、HAProxyに接続してくるクライアントに対するタイムアウト時間を3秒に、**timeout serverキーワード** に対して設定を行うことで、HAProxyにおける接続転送先サーバーのタイムアウト時間を6秒に設定しています。  
 
+&nbsp;
 
 ### HTTPモードとTCPモード
 HAProxyでは、**HTTPモード** と **TCPモード** という動作モードが用意されています。  
 どちらのモードも、クライアントからの接続を別のサーバーに転送するという動作に変わりありませんが、TCPモードではTCPレベル(L4)でロードバランスするので処理速度の向上が見込めます。  
 そのため、本アーキテクチャーにおけるロードバランサでは、**modeキーワード** に対して **"tcp"** を指定し、TCPモードとして動作するようにを設定しています。  
 
+&nbsp;
 
 ### フロントエンドとバックエンド
 HAProxyでは、**フロントエンド** と **バックエンド** という単位でプロキシとしての動作に関する設定を行うようになっています。  
 フロントエンドは待ち受け処理に関する設定を、バックエンドは転送先のサーバーの指定に関する設定を行います。   
 HAProxyの設定では、まずフロントエンドにて待ち受けを行う条件の設定とその条件を満たす接続を転送するバックエンドに関する設定を行い、次に、バックエンドにて使用するサーバーを指定することでどの接続をどのサーバーに転送するのかというルールの設定を行う仕組みになっています。　　
 
+&nbsp;
 
 ### frontendセクション
 **frontendセクション** では、フロントエンドで待ち受けを行う条件とその条件を満たす接続を転送するバックエンドに関する設定を行うことができます。  
@@ -211,7 +226,7 @@ _**自分で設定ファイルを作成する場合は注意して下さい。**
 
 **default_backendキーワード** に対しては、bindキーワードで指定した待ち受け先に対して接続があった場合のデフォルトの転送先バックエンドとして、**"kube-apiserver"** を指定しています。  
 
-
+&nbsp;
 
 ### backendセクション
 **backendセクション** では、バックエンドで使用するサーバーを指定することで、どの接続をどのサーバーに転送するのかというルールを設定するを行うことができます。  
@@ -231,6 +246,8 @@ _**自分で設定ファイルを作成する場合は注意して下さい。**
 
 _**\* HAProxyの詳細に関しましては、[多機能なロードバランサとして使える多機能プロクシサーバー「HAProxy」入門](https://knowledge.sakura.ad.jp/8078/) を参照して下さい。**_  
 _**HAProxyに関してとてもわかりやすく説明しています。**_
+
+&nbsp;
 
 
 
@@ -263,6 +280,8 @@ build done.
 
 _**\* bulid.shスクリプトの詳細に関しましては、[こちら](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb/scripts/build.sh)を参照して下さい。**_
 
+&nbsp;
+
 
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサの稼働
@@ -270,6 +289,7 @@ _**\* bulid.shスクリプトの詳細に関しましては、[こちら](https:
 
 <img src="../images/redundant_load_balancers_on_network.png" width=100% alt="Redundant Load Balancers on Network"><br>
 
+&nbsp;
 
 
 
@@ -298,6 +318,8 @@ _**なお、一度作成したKeepalivedの設定ファイルとHAProxyの設定
 _**新しい設定ファイルを使用して再構築する場合には、[Keepalived設定ファイルの作成](#keepalived設定ファイルの作成)と
 [HAProxy設定ファイルの作成](#haproxy設定ファイルの作成)からやり直す必要があります。**_
 
+&nbsp;
+
 
 
 
@@ -307,13 +329,17 @@ _**新しい設定ファイルを使用して再構築する場合には、[Keep
 
 _**\* ここでは負荷分散の対象となるアクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築が完了していないため、負荷分散に関する動作検証は行いません。**_  
 
+&nbsp;
+
+
+
 ## アクティブ/スタンバイ冗長化構成ロードバランサの状態確認
 まず、各ロードバランサにて、KeepalivedとHAProxyが起動しているかどうか確認し、どのロードバランサに対して仮想IPアドレスが割り当てられているか確認していきます。  
 
 
 <img src="../images/redundant_load_balancers_on_network.png" width=100% alt="Redundant Load Balancers on Network"><br>
 
-
+&nbsp;
 
 ### HAProxy1上での確認作業
 IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
@@ -322,7 +348,7 @@ IPアドレスが192.168.3.241であるロードバランサ(HAProxy1)に対し�
 ssh pi@192.168.3.241
 ```
 
-
+&nbsp;
 
 ### HAProxy1上のKeepalivedの起動確認
 HAProxy1上でKeepalivedが起動しているか確認します。  
@@ -337,7 +363,7 @@ sudo systemctl status keepalived
 
 <img src="../images/systemctl_status_keepalived_on_haproxy1.png" width=100% alt="systemctl status keepalived on HAProxy1"><br>
 
-
+&nbsp;
 
 ### HAProxy1上のHAProxyの起動確認
 次に、HAProxy1上でHAProxyが起動しているか確認します。  
@@ -351,7 +377,7 @@ sudo systemctl status haproxy
 
 <img src="../images/systemctl_status_haproxy_on_haproxy1.png" width=100% alt="systemctl status haproxy on HAProxy1"><br>
 
-
+&nbsp;
 
 ### HAProxy1に割り当てられたIPアドレスの確認
 Keepalivedの起動確認の際、**このロードバランサ(HAProxy1)はKeepalivedにおいてMASTER状態である** ことが判明しました。  
@@ -366,7 +392,7 @@ ip addr
 
 <img src="../images/ip_addr_on_haproxy1.png" width=100% alt="ip addr on HAProxy1"><br>
 
-
+&nbsp;
 
 ### HAProxy1のリスニングポートが開放されていることの確認
 [ロードバランサの構築](#ロードバランサの構築)時にbuild.shスクリプトにおいて、アクティブ/スタンバイ冗長化構成ロードバランサで利用するリスニングポートに対する受信パケットの流入を許可するように設定しました。  
@@ -381,7 +407,7 @@ sudo netstat -ltunp4
 
 <img src="../images/netstat_on_haproxy1.png" width=100% alt="netstat on HAProxy1"><br>
 
-
+&nbsp;
 
 ### HAProxy2上での確認作業
 次に、IPアドレスが192.168.3.242であるロードバランサ(HAProxy1)に対してSSH接続し、piユーザでログインします。  
@@ -390,7 +416,7 @@ sudo netstat -ltunp4
 ssh pi@192.168.3.242
 ```
 
-
+&nbsp;
 
 ### HAProxy2上のKeepalivedの起動確認
 HAProxy2上でKeepalivedが起動しているか確認します。  
@@ -405,7 +431,7 @@ sudo systemctl status keepalived
 
 <img src="../images/systemctl_status_keepalived_on_haproxy2.png" width=100% alt="systemctl status keepalived on HAProxy2"><br>
 
-
+&nbsp;
 
 ### HAProxy2上のHAProxyの起動確認
 次に、HAProxy2上でHAProxyが起動しているか確認します。  
@@ -419,7 +445,7 @@ sudo systemctl status haproxy
 
 <img src="../images/systemctl_status_haproxy_on_haproxy2.png" width=100% alt="systemctl status haproxy on HAProxy2"><br>
 
-
+&nbsp;
 
 ### HAProxy2に割り当てられたIPアドレスの確認
 Keepalivedの起動確認の際、**このロードバランサ(HAProxy2)はKeepalivedにおいてBACKUP状態である** ことが判明しました。  
@@ -434,11 +460,12 @@ ip addr
 
 <img src="../images/ip_addr_on_haproxy2.png" width=100% alt="ip addr on HAProxy2"><br>
 
+&nbsp;
 
 ### HAProxy2のリスニングポートが開放されていることの確認
 [HAProxy1のリスニングポートが開放されていることの確認](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb/READMD.md#HAProxy1のリスニングポートが開放されていることの確認)と同様の手順を実施し、確認して下さい。  
 
-
+&nbsp;
 
 
 
@@ -447,7 +474,7 @@ ip addr
 
 <img src="../images/active_haproxy1_and_standby_haproxy2.png" width=100% alt="Active HAProxy1 and Standby HAProxy2"><br>
 
-
+&nbsp;
 
 
 
@@ -519,6 +546,8 @@ sudo systemctl status keepalived
 
 <img src="../images/stop_keepalived_4.png" width=100% alt=""><br>
 
+&nbsp;
+
 
 
 ## Keepalivedを用いたフェイルバック動作検証
@@ -562,7 +591,7 @@ ip addr
 
 <img src="../images/stop_keepalived_6.png" width=100% alt=""><br>
 
-
+&nbsp;
 
 
 
@@ -571,7 +600,7 @@ ip addr
 
 <img src="../images/standby_haproxy1_and_active_haproxy2.png" width=100% alt="Standby HAProxy1 and Active HAProxy2"><br>
 
-
+&nbsp;
 
 
 
@@ -652,7 +681,7 @@ sudo systemctl status keepalived
 
 <img src="../images/stop_haproxy_5.png" width=100% alt=""><br>
 
-
+&nbsp;
 
 
 
@@ -706,7 +735,7 @@ ip addr
 
 <img src="../images/stop_haproxy_8.png" width=100% alt=""><br>
 
-
+&nbsp;
 
 
 

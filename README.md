@@ -3,7 +3,9 @@
 ## 概要
 このリポジトリはRaspberry Piで高可用性Kubernetesクラスターを構築するための手順とビルドスクリプトをまとめたものです。  
 
-<img src="./images/kubernetes_cluster_on_raspberrypi.jpg" width=100% alt="High Availability Kubernetes Cluster on Raspberry Pi">
+<img src="./images/kubernetes_cluster_on_raspberrypi.jpg" width=100% alt="High Availability Kubernetes Cluster on Raspberry Pi"><br>
+
+&nbsp;
 
 
 
@@ -16,6 +18,8 @@
 
 <img src="./images/architecture.png" width=100% alt="High Availability Kubernetes Cluster Architecture"><br>
 
+&nbsp;
+
 
 
 ## Kubernetesワーカーノード群
@@ -25,6 +29,8 @@ Kubernetesワーカーノード群はKubernetesマスターノード群によっ
 
 Kubernetesワーカーノード群の構築に関しましては高可用性Kubernetesクラスターの構築に直接的に関与しないため、ワーカーノードをクラスターに参加させる方法、クラスターの動作検証の方法などについては言及しません。  
 ワーカノードをクラスターに参加させる方法に関しましては[ワーカーノードの設定](https://github.com/izewfktvy533zjmn/raspi-k8s/blob/master/README.md#ワーカーノードの設定)をクラスターの動作検証の方法に関しましては[Kubernetesクラスターの動作検証方法](https://github.com/izewfktvy533zjmn/raspi-k8s/blob/master/README.md#kubernetesクラスターの動作検証方法)を参考にして下さい。  
+
+&nbsp;
 
 
 
@@ -60,6 +66,8 @@ etcdクラスターを構築する方法として、[Kubernetes公式ドキュ�
 
 本アーキテクチャーでは、上記の制約を満たすために **アクティブ/スタンバイ冗長化構成ロードバランサ** を導入することで対処しています。
 
+&nbsp;
+
 
 
 ## アクティブ/スタンバイ冗長化構成ロードバランサ
@@ -77,6 +85,8 @@ etcdクラスターを構築する方法として、[Kubernetes公式ドキュ�
 
 <img src="./images/redundant_load_balancers.png" width=100% alt="Redundant Load Balancers"><br>
 
+&nbsp;
+
 
 
 
@@ -90,8 +100,9 @@ etcdクラスターを構築する方法として、[Kubernetes公式ドキュ�
 
 アクティブ/アクティブ冗長化構成Kubernetesマスターノード群のコンポーネントとして稼働する3台のマスターノードに対してはそれぞれ **192.168.3.251/24** と **192.168.3.252/24** 、**192.168.3.253/24** を割り当てることにします。  
 
-<img src="./images/network_architecture.png" width=100% alt="High Availability Kubernetes Cluster Network Architecture">
+<img src="./images/network_architecture.png" width=100% alt="High Availability Kubernetes Cluster Network Architecture"><br>
 
+&nbsp;
 
 
 
@@ -107,6 +118,8 @@ etcdクラスターを構築する方法として、[Kubernetes公式ドキュ�
 - kubeadmとkubelet、kubectlがマスターノードとワーカーノードにインストールされており、Kubernetesクラスターを構築する環境が整っていること
 
 _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整える場合、[ラズパイKubernetesシングルコントロールプレーンクラスターの構築](https://github.com/izewfktvy533zjmn/raspi-k8s)を参考にすることを推奨します。**_
+
+&nbsp;
 
 
 
@@ -137,6 +150,8 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
   - Keepalived v2.0.10
   - HAProxy v1.8.19
 
+&nbsp;
+
 
 
 
@@ -145,6 +160,8 @@ _**\* Raspberry Pi上にKubernetesクラスターを構築する環境を整え�
 **アクティブ/スタンバイ冗長化構成ロードバランサ** の構築方法に関しましては、[**こちら**](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb)を参照して下さい。
 
 <img src="./images/redundant_load_balancers_and_redundant_kubernetes_master_nodes_on_network.png" width=100% alt="Redundant Load Balancers and Redundant Kubernetes Master Nodes on Network"><br>
+
+&nbsp;
 
 
 
@@ -164,7 +181,7 @@ git clone https://github.com/izewfktvy533zjmn/raspi-ha-k8s.git
 cd raspi-ha-k8s/scripts && chmod +x *
 ```
 
-
+&nbsp;
 
 
 
@@ -173,7 +190,7 @@ cd raspi-ha-k8s/scripts && chmod +x *
 現在のkubeadmではnftablesと互換性がないため、iptablesをレガシーモードに切り替える必要があります。  
 [公式ドキュメント](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#iptables%E3%81%8Cnftables%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%AA%E3%81%84%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B)に従って、**全てのマスターノード** にて設定を行って下さい。  
 
-
+&nbsp;
 
 
 
@@ -220,7 +237,7 @@ networking:
 
 _**\* なお、本クラスターではCNIプラグインとして、Flannelを使用するため、podSubnetには10.244.0.0/16を設定しています。**_
 
-
+&nbsp;
 
 
 
@@ -417,8 +434,7 @@ echo 'init done.'
 exit 0
 ```
 
-
-
+&nbsp;
 
 
 
@@ -508,9 +524,155 @@ To start administering your cluster from this node, you need to run the followin
 Run 'kubectl get nodes' to see this node join the cluster.
 ```
 
-
+&nbsp;
 
 
 
 ## クラスターへの参加時にエラーが発生した場合
 コントロールプレーンによるクラスターへの参加時にエラーが発生した場合の対処方法に関しましては、[**こちら**](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/docs)を参照して下さい。
+
+&nbsp;
+
+
+
+
+
+## 高可用性ラズパイKuberentesクラスターの動作検証
+最後に、これまでの手順に従って構築した高可用性ラズパイKuberentesクラスターの動作検証を行っていきます。  
+
+## ロードバランサの負荷分散に関する動作検証
+[アクティブ/スタンバイ冗長化構成ロードバランサの動作検証](https://github.com/izewfktvy533zjmn/raspi-ha-k8s/tree/master/rlb#アクティブスタンバイ冗長化構成ロードバランサの動作検証)では、負荷分散の対象となるアクティブ/アクティブ冗長化構成Kubernetesマスターノード群の構築が完了していないため、負荷分散に関する動作検証を行いませんでした。  
+
+ここでは、アクティブ/スタンバイ冗長化構成ロードバランサの負荷分散に関する動作検証を行っていきます。  
+
+まず、アクティブ状態のロードバランサにログインし、下記のコマンドを実行してHAProxyのログをリアルタイムで確認できるようにしておきます。
+
+```
+tail -f /var/log/haproxy.log | grep "<your machine ip address>.*master."
+```
+_**"\<your machine ip address\>"**_ にはkubectlコマンドを発行することができるマシンのIPアドレスを指定して下さい。  
+
+次に、上記とは異なるターミナル上でkubectlコマンドを発行できるマシンから以下のようなkubectlコマンドを何度か発行します。  
+
+```
+kubectl get pods
+kubectl get pods -o wide
+kubectl get nodes
+kubectl get nodes -o wide
+kubectl -n kube-system get pod
+kubectl -n kube-system get pods -o wide
+```
+
+アクティブ状態のロードバランサにログインしているターミナル上にて、HAProxyのログを確認してみます。  
+下図の結果より、冗長化構成Kubernetesマスターノード群に対して負荷分散できていることが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_1.png" width=100% alt=""><br>
+
+&nbsp;
+
+
+
+### 1台のマスターノードがダウンした時の動作検証
+3台のマスターノードからなるアクティブ/アクティブ冗長化構成Kubernetesマスターノード群は1台のマスターノードが故障した場合でもKubernetesクラスターを稼働させ続けることができるはずです。  
+ここでは、ある1台のマスターノードに障害を発生させてクラスターの管理を継続することができるか検証を行ってみます。  
+
+あるマスターノードにログインし、下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl stop docker
+```
+
+上記のコマンドの実行後、Dockerの動作が停止していることを確認します。
+
+<img src="./images/verification_of_ha_k8s_cluster_2.png" width=100% alt=""><br>
+
+次に、アクティブ状態のロードバランサにてHAProxyのログを確認してみます。  
+以下のログより、あるマスターノード(master1)のkube-apiserverが停止していることが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_3.png" width=100% alt=""><br>
+
+最後に、kubectlコマンドを発行できるマシンから以下のコマンドを実行してみます。   
+
+```
+kubectl get nodes -o wide | grep "master"
+```
+
+あるマスターノード(master1)が **NotReady状態** になっていますが、依然としてkubectlコマンドを発行できており、クラスターの管理が継続していることが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_4.png" width=100% alt=""><br>
+
+&nbsp;
+
+
+
+### 2台のマスターノードがダウンした時の動作検証
+3台のマスターノードからなるアクティブ/アクティブ冗長化構成Kubernetesマスターノード群は2台のマスターノードが故障した場合、Kubernetesクラスターを稼働させ続けることはできません。  
+ここでは、ある2台のマスターノードを障害させてクラスターの管理を継続することができないことを確認してみます。  
+
+[1台のマスターノードがダウンした時の動作検証](#1台のマスターノードがダウンした時の動作検証)にて障害を発生させた1台目のマスターノードとは異なるマスターノードにログインし、下記のコマンドを実行して下さい。  
+
+```
+sudo systemctl stop docker
+```
+
+上記のコマンドの実行後、Dockerの動作が停止していることを確認します。
+
+<img src="./images/verification_of_ha_k8s_cluster_5.png" width=100% alt=""><br>
+
+次に、アクティブ状態のロードバランサにてHAProxyのログを確認してみます。  
+以下のログより、2台目のマスターノード(master2)のkube-apiserverが停止していることが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_6.png" width=100% alt=""><br>
+
+しばらくすると、3台目のマスターノード(master3)のkube-apiserverも停止したことが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_7.png" width=100% alt=""><br>
+
+
+最後に、kubectlコマンドを発行できるマシンからkubectlコマンドの発行を行ってみます。  
+下記の結果より、kubectlコマンドを発行しても結果が帰ってこなくなっており、クラスターの管理が継続することができないことが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_8.png" width=100% alt=""><br>
+
+&nbsp;
+
+
+
+### 故障したマスターノードを復旧させた時の動作検証
+ここでは、故障させたマスターノードを復旧させることでクラスターの管理を再開できることができるか検証を行ってみます。  
+
+[2台のマスターノードがダウンした時の動作検証](#2台のマスターノードがダウンした時の動作検証)でDockerを停止させたマスターノードにログインし、下記のコマンドを実行することでDockerを再稼働させます。  
+
+```
+sudo systemctl start docker
+```
+
+アクティブ状態のロードバランサにてHAProxyのログを確認してみます。  
+以下のログより、あるマスターノード(master3)のkube-apiserverが稼働したことが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_9.png" width=100% alt=""><br>
+
+しばらくすると、Dockerを再稼働させたマスターノード(master2)のkube-apiserverも稼働したことが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_10.png" width=100% alt=""><br>
+
+次に、kubectlコマンドを発行できるマシンからkubectlコマンドの発行を行ってみます。  
+下記の結果より、kubectlコマンドが発行できており、クラスターの管理を再開することができることが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_11.png" width=100% alt=""><br>
+
+最後に、もう1台のマスターノードも復旧させます。  
+[1台のマスターノードがダウンした時の動作検証](#1台のマスターノードがダウンした時の動作検証)でDockerを停止させたマスターノードにログインし、下記のコマンドを実行することでDockerを再稼働させます。  
+
+```
+sudo systemctl start docker
+```
+
+しばらくすると、Dockerを再稼働させたマスターノード(master1)のkube-apiserverも稼働したことが確認できました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_12.png" width=100% alt=""><br>
+
+kubectlコマンドを発行できるマシンからkubectlコマンドの発行を行ってみます。  
+下記の結果より、アクティブ/アクティブ冗長化構成Kubernetesマスターノード群の状態を元に戻すことができました。  
+
+<img src="./images/verification_of_ha_k8s_cluster_13.png" width=100% alt=""><br>
